@@ -1,81 +1,21 @@
-const axios = require("axios").default;
 require("dotenv").config();
 const { parse } = require("node-html-parser");
-const yaml = require("js-yaml");
-const fs = require("fs");
+const { fetchData } = require("../utils/fetch");
+const analyzePosts=require("../utils/analyzePosts")
+const { readConfig } = require("../utils/readConfig");
+const config = require("../mockConfig"); //currently there is problrm with getting the regex as regex from yaml
 
-const path = require("path");
-const readConfig = (configPath) => {
+const scraper = async (req, res) => {
     try {
-        const config = yaml.load(
-            fs.readFileSync(path.join(__dirname, configPath), "utf8")
-        );
-        console.log(config);
-        return config;
+        const data = await fetchData(config.url, config.proxy);
+        const posts = parse(data).querySelectorAll(config.allPosts.selector);
+        res.json(analyzePosts(posts,config.params));
     } catch (error) {
-        throw new Error(error);
+        console.log(error)
+        res.status(500).send("Internal server Error");
     }
-};
-const config = {
-    url: "http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all",
-    proxy: {
-        port: 8118,
-        host: "localhost",
-    },
-    allPosts: { selector: ".col-sm-12" },
-    params: {
-        title: { selector: "h4", regex: "" },
-        content: { selector: "ol", regex: "" },
-        author: { selector: ".col-sm-6", regex: /(?<=(\w+\s){2})(\w+)/ },
-        date: {
-            selector: ".col-sm-6",
-            regex: /\d+\s[a-zA-Z]+\s\d+,\s\d+:\d+:\d+\s[a-zA-Z]+/,
-        },
-    },
 };
 
-//getting the data from the url
-const getData = async (url) => {
-    try {
-        const response = await axios.get(url, {
-            proxy: config.proxy,
-        });
-        return response.data;
-    } catch (error) {
-        throw new Error(error);
-    }
-};
-const extractDataFromText = (text, regex) => {
-    if (!regex) return text;
-    return text.match(regex)[0].trim();
-};
-const scraper = (req, res) => {
-    try {
-        getData(config.url).then((data) => {
-            const posts = parse(data).querySelectorAll(
-                config.allPosts.selector
-            );
-            const postsArray = [];
-            for (let post of posts) {
-                const NewPost = {};
-                try {
-                    for (let param in config.params) {
-                        NewPost[param] = extractDataFromText(
-                            post
-                                .querySelector(config.params[param].selector)
-                                .text.trim(),
-                            config.params[param].regex
-                        );
-                    }
-                    postsArray.push(NewPost);
-                } catch (err) {
-                    console.log(err);
-                }
-            }
-            res.json(postsArray);
-        });
-    } catch (error) {
-        res.send(error);
-    }
-};
+
+
 module.exports = scraper;

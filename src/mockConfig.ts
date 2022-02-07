@@ -1,4 +1,6 @@
-module.exports={
+import { Config } from "./types/config";
+
+const config:Config = {
     url: "http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all",
     proxy: {
         port: 8118,
@@ -6,8 +8,8 @@ module.exports={
     },
     allPosts: { selector: ".col-sm-12" },
     params: {
-        title: { selector: "h4", regex: "" },
-        content: { selector: "ol", regex: "" },
+        title: { selector: "h4", regex: new RegExp("") },
+        content: { selector: "ol", regex: new RegExp("") },
         author: { selector: ".col-sm-6", regex: /(?<=(\w+\s){2})(\w+)/ },
         date: {
             selector: ".col-sm-6",
@@ -15,3 +17,4 @@ module.exports={
         },
     },
 };
+export default config;

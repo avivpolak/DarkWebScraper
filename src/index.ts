@@ -1,10 +1,10 @@
 //express server
-const express = require("express");
+import express from "express";
 const app = express();
 const port = 3000;
 
 //routes
-const scraperRouter = require("./routes/scraper");
+import scraperRouter from "./routes/scraper";
 app.use("/", scraperRouter);
 
 //listen
@@ -13,5 +13,5 @@ app.listen(port, () => {
 });
 
 //export
-module.exports = app;
+export default app;
 

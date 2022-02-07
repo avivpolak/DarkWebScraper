@@ -1,10 +1,12 @@
 import config from "../mockConfig"; //currently there is problrm with getting the regex as regex from yaml
 import { Request, Response } from "express";
-import { scraper } from "../utils/scraper";
+import { scraper } from "../scraper/utils/scraper";
+import { readFromDb } from "../scraper/utils/db";
 
 export const getAnalyzedPosts = async (req: Request, res: Response) => {
     try {
-        const analyzedPosts = await scraper(config);
+        const analyzedPosts = await readFromDb()
+        
         if (analyzedPosts) {
             return res.status(200).send(analyzedPosts);
         }

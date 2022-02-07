@@ -1,35 +1,30 @@
-import { extractDataFromText } from "./regex";
-import { Posts, Post } from "../types/posts";
-import { Params } from "../types/config";
-import { HTMLElement } from "node-html-parser";
-
-const analyzePosts = (posts: HTMLElement[], params: Params): Posts => {
-    const analyzedPosts: Posts = [];
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const regex_1 = require("./regex");
+const analyzePosts = (posts, params) => {
+    const analyzedPosts = [];
     for (let post of posts) {
         try {
             const analyzedPost = analyzePost(post, params);
             if (analyzedPost && Object.keys(analyzedPost).length > 0) {
                 analyzedPosts.push(analyzedPost);
             }
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
         }
     }
     return analyzedPosts;
 };
-
-const analyzePost = (post: HTMLElement, params: Params): Post | undefined => {
+const analyzePost = (post, params) => {
     try {
-        const analyzedPost: Post = {};
+        const analyzedPost = {};
         for (let param in params) {
             const htmlElement = post.querySelector(params[param].selector);
             if (htmlElement) {
-                const htmlText = htmlElement.textContent; 
+                const htmlText = htmlElement.textContent;
                 if (htmlText) {
-                    const post = extractDataFromText(
-                        htmlText.trim(),
-                        params[param].regex
-                    );
+                    const post = (0, regex_1.extractDataFromText)(htmlText.trim(), params[param].regex);
                     if (post) {
                         analyzedPost[param] = post;
                     }
@@ -37,11 +32,11 @@ const analyzePost = (post: HTMLElement, params: Params): Post | undefined => {
             }
         }
         return analyzedPost;
-    } catch (error: unknown) {
+    }
+    catch (error) {
         if (typeof error === "string") {
             throw new Error(error);
         }
     }
 };
-
-export default analyzePosts;
+exports.default = analyzePosts;

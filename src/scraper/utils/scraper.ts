@@ -1,5 +1,5 @@
 import parse from "node-html-parser";
-import { Config } from "../types/config";
+import { Config } from "../../types/config";
 import analyzePosts from "./analyzePosts";
 import { fetchData } from "./fetch";
 

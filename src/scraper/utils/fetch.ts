@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Proxy } from "../types/config";
+import { Proxy } from "../../types/config";
 
 export const fetchData = async (url: string, proxy: Proxy): Promise<any> => {
     try {

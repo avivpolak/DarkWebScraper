@@ -1,7 +1,7 @@
 import yaml from "js-yaml";
 import * as fs from "fs";
 import path from "path";
-import { Config } from "../types/config";
+import { Config } from "../../types/config";
 
 export const readConfig = (configPath: string): Config | undefined => {
     try {

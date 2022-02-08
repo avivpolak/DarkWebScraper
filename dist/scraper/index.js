@@ -7,6 +7,7 @@ const scraper_1 = require("./utils/scraper");
 const mockConfig_1 = __importDefault(require("../mockConfig"));
 const client_1 = require("@prisma/client");
 const actions_1 = require("../prisma/actions");
+const analyzer_1 = require("../analyzer/analyzer");
 const prisma = new client_1.PrismaClient();
 const scrape = async (config) => {
     try {
@@ -15,6 +16,9 @@ const scrape = async (config) => {
         console.log("saving data to db...");
         if (data) {
             for (let post of data) {
+                if (typeof post.content === "string") {
+                    post.santimate = (0, analyzer_1.sentimentor)(post.content);
+                }
                 await (0, actions_1.saveToDb)(post)
                     .catch((e) => {
                     throw e;

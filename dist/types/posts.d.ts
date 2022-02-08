@@ -1,4 +1,4 @@
 export declare type Post = {
-    [key: string]: string;
+    [key: string]: string | number;
 };
 export declare type Posts = Post[];

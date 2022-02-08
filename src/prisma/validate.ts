@@ -10,7 +10,7 @@ const isValidData = (data: Post): data is Post => {
     return title && content && date && author ? true : false;
 };
 const isExsistsInDb = async (data: Post) => {
-    if (isValidData(data)) {
+    if (isValidData(data)&&typeof data.content === "string") {
         const paste = await prisma.paste.findFirst({
             where: {
                 content:data.content,

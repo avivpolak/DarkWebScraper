@@ -12,7 +12,9 @@ export const saveToDb = async (data: Post) => {
         console.log("saved!");
     }
 };
-
+export const deleteAllPastesFromDb = async () => {
+    return await prisma.paste.deleteMany({});
+};
 export const getAllPastesFromDb = async () => {
     return await prisma.paste.findMany({});
 };

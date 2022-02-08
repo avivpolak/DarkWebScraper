@@ -3,6 +3,7 @@ import { scraper } from "./utils/scraper";
 import config from "../mockConfig";
 import { PrismaClient } from "@prisma/client";
 import { saveToDb } from "../prisma/actions";
+import { sentimentor } from "../analyzer/analyzer";
 
 const prisma = new PrismaClient();
 
@@ -13,7 +14,10 @@ const scrape = async (config: Config) => {
         console.log("saving data to db...");
         if (data) {
             for (let post of data) {
-              await saveToDb(post)
+                if (typeof post.content === "string") {
+                    post.santimate = sentimentor(post.content);
+                }
+                await saveToDb(post)
                     .catch((e) => {
                         throw e;
                     })
@@ -28,5 +32,5 @@ const scrape = async (config: Config) => {
 };
 
 // setInterval(() => {
-    scrape(config);
+scrape(config);
 // }, 12000);

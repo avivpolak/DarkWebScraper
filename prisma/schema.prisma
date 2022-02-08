@@ -15,9 +15,9 @@ model Paste {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String?  @db.VarChar(255)
-  content   String?  @db.Text @unique
+  content   String?  @unique @db.Text
   date      String?  @db.VarChar(255)
   author    String?  @db.VarChar(255)
-
+  santimate Float?
   // @@unique([ content,title])
 }

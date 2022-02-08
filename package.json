@@ -24,9 +24,9 @@
     "typescript": "^4.5.5"
   },
   "scripts": {
-    "scraper": "tsc && nodemon dist/scraper/index.js",
-    "start": "tsc && node dist/index.js",
-    "dev": "tsc && nodemon dist/index.js --watch src",
+    "scraper": "tsc && node dist/scraper/index.js",
+    "start": "tsc && node dist/api/index.js",
+    "dev": "tsc && nodemon dist/api/index.js --watch src",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

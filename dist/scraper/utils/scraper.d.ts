@@ -1,2 +1,3 @@
 import { Config } from "../../types/config";
-export declare const scraper: (config: Config) => Promise<import("../../types/posts").Posts | undefined>;
+import { Pastes } from "../../types/pastes";
+export declare const scraper: (config: Config) => Promise<Pastes | undefined>;

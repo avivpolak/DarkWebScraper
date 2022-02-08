@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const regex_1 = require("./regex");
-const analyzePastes = (pasPastes, params) => {
+const getPastesFromHtml = (pasPastes, params) => {
     const analyzedPastes = [];
     for (let Paste of pasPastes) {
         try {
-            const analyzedPaste = analyzePaste(Paste, params);
+            const analyzedPaste = getPasteFromHtml(Paste, params);
             if (analyzedPaste && Object.keys(analyzedPaste).length > 0) {
                 analyzedPastes.push(analyzedPaste);
             }
@@ -16,7 +16,7 @@ const analyzePastes = (pasPastes, params) => {
     }
     return analyzedPastes;
 };
-const analyzePaste = (Paste, params) => {
+const getPasteFromHtml = (Paste, params) => {
     try {
         const analyzedPaste = {};
         for (let param in params) {
@@ -39,4 +39,4 @@ const analyzePaste = (Paste, params) => {
         }
     }
 };
-exports.default = analyzePastes;
+exports.default = getPastesFromHtml;

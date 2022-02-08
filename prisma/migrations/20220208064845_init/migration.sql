@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Paste" ALTER COLUMN "content" SET DATA TYPE TEXT;

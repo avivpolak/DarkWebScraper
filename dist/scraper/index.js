@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const scraper_1 = require("./utils/scraper");
+const scraper_1 = require("./scraper");
 const mockConfig_1 = __importDefault(require("../mockConfig"));
 const client_1 = require("@prisma/client");
-const actions_1 = require("../prisma/actions");
-const analyzer_1 = require("../analyzer/analyzer");
+const actions_1 = require("../prisma/utils/actions");
+const sentimentor_1 = require("../analyzer/sentimentor");
 const prisma = new client_1.PrismaClient();
 const scrape = async (config) => {
     try {
@@ -17,7 +17,7 @@ const scrape = async (config) => {
         if (data) {
             for (let post of data) {
                 if (typeof post.content === "string") {
-                    post.santimate = (0, analyzer_1.sentimentor)(post.content);
+                    post.santimate = (0, sentimentor_1.getSentimentFromText)(post.content);
                 }
                 await (0, actions_1.saveToDb)(post)
                     .catch((e) => {
@@ -33,6 +33,6 @@ const scrape = async (config) => {
         console.log(error);
     }
 };
-// setInterval(() => {
-scrape(mockConfig_1.default);
-// }, 12000);
+setInterval(() => {
+    scrape(mockConfig_1.default);
+}, 120000);

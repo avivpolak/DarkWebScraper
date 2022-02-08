@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAnalyzedPosts = void 0;
-const db_1 = require("../scraper/utils/db");
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 const getAnalyzedPosts = async (req, res) => {
     try {
-        const analyzedPosts = await (0, db_1.readFromDb)();
+        const analyzedPosts = await prisma.paste.findMany({});
         if (analyzedPosts) {
             return res.status(200).send(analyzedPosts);
         }

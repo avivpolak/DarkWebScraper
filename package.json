@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "dependencies": {
+    "@prisma/client": "^3.9.1",
     "@types/js-yaml": "^4.0.5",
     "axios": "^0.25.0",
     "dotenv": "^16.0.0",

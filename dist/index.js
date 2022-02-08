@@ -8,8 +8,8 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const port = 3000;
 //routes
-const analyzedPosts_1 = __importDefault(require("./routes/analyzedPosts"));
-app.use("/", analyzedPosts_1.default);
+const analyzedPastes_1 = __importDefault(require("./routes/analyzedPastes"));
+app.use("/", analyzedPastes_1.default);
 //listen
 app.listen(port, () => {
     console.log(`listening on port ${port}`);

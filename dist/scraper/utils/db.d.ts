@@ -1,2 +1,2 @@
-export declare const saveToDb: (data: any) => Promise<void>;
-export declare const readFromDb: () => Promise<any>;
+import { Post } from "../../types/posts";
+export declare const saveToDb: (data: Post) => Promise<void>;

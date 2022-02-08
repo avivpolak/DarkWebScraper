@@ -4,8 +4,8 @@ const app = express();
 const port = 3000;
 
 //routes
-import analyzedPostsRouter from "./routes/analyzedPosts";
-app.use("/", analyzedPostsRouter);
+import analyzedPastesRouter from "./routes/analyzedPastes";
+app.use("/", analyzedPastesRouter);
 
 //listen
 app.listen(port, () => {

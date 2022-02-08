@@ -1,33 +1,27 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.scraper = void 0;
-const node_html_parser_1 = __importDefault(require("node-html-parser"));
-const analyzePosts_1 = __importDefault(require("./analyzePosts"));
-const fetch_1 = require("./fetch");
-// import {isString} from "../../types/typeGourds"
+exports.scrape = void 0;
+const fetcher_1 = require("./fetcher");
+const typeGourds_1 = require("../../types/typeGourds");
+const parser_1 = require("./parser");
+const db_1 = require("./db");
 const scraper = async (config) => {
-    const html = await (0, fetch_1.fetchData)(config.url, config.proxy);
-    if (isString(html)) {
-        return parseHtmlToObject(html, config);
+    const html = await (0, fetcher_1.fetchData)(config.url, config.proxy);
+    if ((0, typeGourds_1.isString)(html)) {
+        return (0, parser_1.parseHtmlToObject)(html, config);
     }
 };
-exports.scraper = scraper;
-const parseHtmlToObject = (html, config) => {
-    const parseResult = (0, node_html_parser_1.default)(html);
-    if (parseResult) {
-        const posts = parseResult.querySelectorAll(config.allPosts.selector);
-        const analyzedPosts = (0, analyzePosts_1.default)(posts, config.params);
-        if (analyzedPosts.length > 0) {
-            return analyzedPosts;
-        }
-        else {
-            return undefined;
+const scrape = async (config) => {
+    try {
+        console.log("starting scraper");
+        const data = await scraper(config);
+        console.log("saving data to db...");
+        if ((0, typeGourds_1.isPastes)(data)) {
+            await (0, db_1.saveAll)(data);
         }
     }
-    else {
-        return undefined;
+    catch (error) {
+        console.log(error);
     }
 };
+exports.scrape = scrape;

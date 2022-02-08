@@ -10,7 +10,7 @@ const parseHtmlToObject = (html, config) => {
     const parseResult = (0, node_html_parser_1.default)(html);
     if (parseResult) {
         const posts = parseResult.querySelectorAll(config.allPosts.selector);
-        const analyzedPosts = getPastesFromHtml(posts, config.params);
+        const analyzedPosts = getPastesList(posts, config.params);
         if (analyzedPosts.length > 0) {
             return analyzedPosts;
         }
@@ -23,7 +23,7 @@ const parseHtmlToObject = (html, config) => {
     }
 };
 exports.parseHtmlToObject = parseHtmlToObject;
-const getPastesFromHtml = (pasPastes, params) => {
+const getPastesList = (pasPastes, params) => {
     const analyzedPastes = [];
     for (let Paste of pasPastes) {
         try {

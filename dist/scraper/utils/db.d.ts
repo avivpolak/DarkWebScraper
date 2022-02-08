@@ -1,2 +1,2 @@
-import { Post } from "../../types/posts";
-export declare const saveToDb: (data: Post) => Promise<void>;
+import { Pastes } from "../../types/pastes";
+export declare const saveAll: (data: Pastes) => Promise<void>;

@@ -1,24 +1,27 @@
-import { PrismaClient } from "@prisma/client";
-import { Paste } from "../../types/pastes";
-import { isValidAndNew } from "./validate";
-
-const prisma = new PrismaClient();
-
-export const saveToDb = async (data: Paste) => {
-    if (await isValidAndNew(data)) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPastesByQueryFromDb = exports.getAllPastesFromDb = exports.deleteAllPastesFromDb = exports.saveToDb = void 0;
+const client_1 = require("@prisma/client");
+const validate_1 = require("./validate");
+const prisma = new client_1.PrismaClient();
+const saveToDb = async (data) => {
+    if (await (0, validate_1.isValidAndNew)(data)) {
         await prisma.paste.create({
             data,
         });
         console.log("saved!");
     }
 };
-export const deleteAllPastesFromDb = async () => {
+exports.saveToDb = saveToDb;
+const deleteAllPastesFromDb = async () => {
     return await prisma.paste.deleteMany({});
 };
-export const getAllPastesFromDb = async () => {
+exports.deleteAllPastesFromDb = deleteAllPastesFromDb;
+const getAllPastesFromDb = async () => {
     return await prisma.paste.findMany({});
 };
-export const getPastesByQueryFromDb = async (query: string) => {
+exports.getAllPastesFromDb = getAllPastesFromDb;
+const getPastesByQueryFromDb = async (query) => {
     return await prisma.paste.findMany({
         where: {
             OR: [
@@ -46,3 +49,4 @@ export const getPastesByQueryFromDb = async (query: string) => {
         },
     });
 };
+exports.getPastesByQueryFromDb = getPastesByQueryFromDb;

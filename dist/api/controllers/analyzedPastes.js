@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPastesByQuery = exports.deleteAllPastes = exports.getAllPastes = void 0;
-const actions_1 = require("../../prisma/utils/actions");
+const actions_1 = require("../../prisma/utils/paste/actions");
 const getAllPastes = async (req, res) => {
     try {
         const allPastes = await (0, actions_1.getAllPastesFromDb)();

@@ -3,6 +3,7 @@ export interface Config {
     proxy: Proxy;
     allPosts: AllPosts;
     params: Params;
+    maxUrls: number;
 }
 export interface Proxy {
     port: number;

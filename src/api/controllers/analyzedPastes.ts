@@ -3,7 +3,7 @@ import {
     getAllPastesFromDb,
     getPastesByQueryFromDb,
     deleteAllPastesFromDb,
-} from "../../prisma/utils/actions";
+} from "../../prisma/utils/paste/actions";
 
 export const getAllPastes = async (req: Request, res: Response) => {
     try {

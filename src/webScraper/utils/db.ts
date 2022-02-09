@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { saveToDb } from "../../prisma/utils/actions";
+import { saveToDb } from "../../prisma/utils/paste/actions";
 import { getSentimentFromText } from "../../analyzer/sentimentor";
 import { Pastes } from "../../types/pastes";
 const prisma = new PrismaClient();

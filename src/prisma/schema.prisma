@@ -15,9 +15,16 @@ model Paste {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String?  @db.VarChar(255)
-  content   String?  @unique @db.Text
+  content   String?  @unique
   date      String?  @db.VarChar(255)
   author    String?  @db.VarChar(255)
   santimate Float?
-  // @@unique([ content,title])
+}
+
+model Website {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  enrtyUrl  String?  @unique
+  urls      String?
 }

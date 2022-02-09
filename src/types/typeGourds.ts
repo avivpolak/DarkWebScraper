@@ -1,5 +1,6 @@
 import { Config } from "./config";
 import { Paste, Pastes } from "./pastes";
+import { Website } from "./website";
 
 export const isString = (str: unknown): str is string => {
     return typeof str === "string";
@@ -15,4 +16,12 @@ export const isPastes = (pastes: unknown): pastes is Pastes => {
 
 export const isPaste = (paste: unknown): paste is Paste => {
     return typeof paste === "object";
+};
+export const isWebsite = (data: Website): data is Website => {
+    const { enrtyUrl, urls } = data;
+    return (
+        isString(urls) &&
+        urls.length < 2703 &&
+        isString(enrtyUrl)
+    );
 };

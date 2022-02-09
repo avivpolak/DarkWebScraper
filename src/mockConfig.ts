@@ -1,12 +1,12 @@
 import { Config } from "./types/config";
 
-const config:Config = {
+const config: Config = {
     url: "http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all",
     proxy: {
         port: 8118,
         host: "localhost",
     },
-    maxUrls:243,
+    maxUrls: 242,
     allPosts: { selector: ".col-sm-12" },
     params: {
         title: { selector: "h4", regex: new RegExp("") },

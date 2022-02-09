@@ -6,7 +6,7 @@ const config = {
         port: 8118,
         host: "localhost",
     },
-    maxUrls: 243,
+    maxUrls: 242,
     allPosts: { selector: ".col-sm-12" },
     params: {
         title: { selector: "h4", regex: new RegExp("") },

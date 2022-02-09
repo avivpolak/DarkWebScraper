@@ -16,7 +16,11 @@ export const deleteAllPastesFromDb = async () => {
     return await prisma.paste.deleteMany({});
 };
 export const getAllPastesFromDb = async () => {
-    return await prisma.paste.findMany({});
+    return await prisma.paste.findMany({
+        orderBy: {
+            santimate: "desc",
+        },
+    });
 };
 export const getPastesByQueryFromDb = async (query: string) => {
     return await prisma.paste.findMany({
@@ -25,24 +29,31 @@ export const getPastesByQueryFromDb = async (query: string) => {
                 {
                     content: {
                         contains: query,
+                        mode: 'insensitive'
                     },
                 },
                 {
                     title: {
                         contains: query,
+                        mode: 'insensitive'
                     },
                 },
                 {
                     author: {
                         contains: query,
+                        mode: 'insensitive'
                     },
                 },
                 {
                     date: {
                         contains: query,
+                        mode: 'insensitive'
                     },
                 },
             ],
+        },
+        orderBy: {
+            santimate: "desc",
         },
     });
 };

@@ -9,10 +9,10 @@ const config = {
     params: {
         title: { selector: "h4", regex: new RegExp("") },
         content: { selector: "ol", regex: new RegExp("") },
-        author: { selector: ".col-sm-6", regex: /(?<=(\w+\s){2})(\w+)/ },
+        author: { selector: ".col-sm-6", regex: /(?<=(\\w+\\s){2})(\\w+)/ },
         date: {
             selector: ".col-sm-6",
-            regex: /\d+\s[a-zA-Z]+\s\d+,\s\d+:\d+:\d+\s[a-zA-Z]+/,
+            regex: /\\d+\\s[a-zA-Z]+\\s\\d+,\\s\\d+:\\d+:\\d+\\s[a-zA-Z]+/,
         },
     },
 };

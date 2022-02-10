@@ -13,6 +13,7 @@ export const parseHtmlToObject = (
     const parseResult = parse(html);
     if (parseResult) {
         const posts = parseResult.querySelectorAll(config.allPosts.selector);
+        
         const analyzedPosts = getPastesList(posts, config.params);
         if (analyzedPosts.length > 0) {
             return analyzedPosts;
@@ -47,6 +48,7 @@ const getPasteFromHtml = (
     try {
         const analyzedPaste: Paste = {};
         for (let param in params) {
+            console.log(params[param].selector)
             const htmlElement = Paste.querySelector(params[param].selector);
             if (htmlElement) {
                 const htmlText = htmlElement.textContent;

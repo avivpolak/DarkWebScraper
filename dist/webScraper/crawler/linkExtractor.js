@@ -8,6 +8,7 @@ const node_html_parser_1 = __importDefault(require("node-html-parser"));
 const typeGourds_1 = require("../../types/typeGourds");
 const fetcher_1 = require("../scraper/utils/fetcher");
 const cash_1 = require("../shared/cash");
+const isUrl_1 = __importDefault(require("validator/lib/isUrl"));
 const getFullUrlList = async (config) => {
     const urlsFromCash = await (0, cash_1.readCash)(config.name);
     if (urlsFromCash &&
@@ -36,7 +37,8 @@ const searchForUrlsFromAGivenUrlList = async (urlList, config) => {
             if (urls2level) {
                 for (const url2level of urls2level) {
                     if (!overalPageUrls.includes(url2level)) {
-                        console.log("added!");
+                        console.clear();
+                        console.log("collecting urls...", overalPageUrls.length, "/", config.maxUrls);
                         overalPageUrls.push(url2level);
                         if (overalPageUrls.length >= config.maxUrls) {
                             continueFlag = false;
@@ -77,7 +79,7 @@ const getPagesLinkes = async (parseResult, config) => {
         .filter((link) => {
         if ((0, typeGourds_1.isString)(link)) {
             return ((0, regex_1.extractDataFromText)(link, /(?<=\/\/)(.*\n?)(?=\.)/) ===
-                (0, regex_1.extractDataFromText)(config.url, /(?<=\/\/)(.*\n?)(?=\.)/));
+                (0, regex_1.extractDataFromText)(config.url, /(?<=\/\/)(.*\n?)(?=\.)/) && (0, isUrl_1.default)(link));
         }
     });
     return links;

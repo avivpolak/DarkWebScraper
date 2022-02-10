@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config = {
     name: "Pastebin",
     url: "https://pastebin.pl/view/db44ef75",
-    useTor: false,
-    maxUrls: 10,
-    allPosts: { selector: "div.container:nth-child(2)" },
+    useTor: true,
+    maxUrls: 54,
+    allPosts: { selector: ".container" },
     params: {
         title: { selector: ".pagetitle", regex: new RegExp("") },
         content: { selector: "ol", regex: new RegExp("") },

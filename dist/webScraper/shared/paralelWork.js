@@ -5,7 +5,7 @@ const doInParalel = async (data, callBack, typeGourd, verbToMonitor, config) => 
     let count = 1;
     const promisesList = [];
     for (const part of data) {
-        // console.clear();
+        console.clear();
         console.log(verbToMonitor, count, "/", data.length);
         count++;
         if (typeGourd(part)) {

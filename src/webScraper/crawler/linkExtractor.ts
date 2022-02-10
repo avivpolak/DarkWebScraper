@@ -5,6 +5,7 @@ import { Config } from "../../types/config";
 import { isString } from "../../types/typeGourds";
 import { fetchData } from "../scraper/utils/fetcher";
 import { readCash, writeCash } from "../shared/cash";
+import isUrl from "validator/lib/isUrl";
 
 const getFullUrlList = async (
     config: Config
@@ -45,7 +46,8 @@ const searchForUrlsFromAGivenUrlList = async (
             if (urls2level) {
                 for (const url2level of urls2level) {
                     if (!overalPageUrls.includes(url2level)) {
-                        console.log("added!");
+                        console.clear();
+                        console.log("collecting urls...",overalPageUrls.length ,"/",config.maxUrls)
                         overalPageUrls.push(url2level);
                         if (overalPageUrls.length >= config.maxUrls) {
                             continueFlag = false;
@@ -87,7 +89,7 @@ const getPagesLinkes = async(parseResult: HTMLElement, config: Config) => {
             if (isString(link)) {
                 return (
                     extractDataFromText(link, /(?<=\/\/)(.*\n?)(?=\.)/) ===
-                    extractDataFromText(config.url, /(?<=\/\/)(.*\n?)(?=\.)/)
+                    extractDataFromText(config.url, /(?<=\/\/)(.*\n?)(?=\.)/) && isUrl(link)
                 );
             }
         });

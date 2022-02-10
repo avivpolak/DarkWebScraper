@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isWebsite = exports.isPaste = exports.isPastes = exports.isConfig = exports.isString = void 0;
+exports.isGeneralConfig = exports.isWebsite = exports.isPaste = exports.isPastes = exports.isConfig = exports.isString = void 0;
 const isString = (str) => {
     return typeof str === "string";
 };
 exports.isString = isString;
 const isConfig = (config) => {
-    return config.url && config.proxy && config.allPosts && config.params;
+    return config.url && config.name && config.allPosts && config.params;
 };
 exports.isConfig = isConfig;
 const isPastes = (pastes) => {
@@ -24,4 +24,13 @@ const isWebsite = (data) => {
         (0, exports.isString)(enrtyUrl));
 };
 exports.isWebsite = isWebsite;
+const isGeneralConfig = (obj) => {
+    if (typeof obj === "object") {
+        if (obj && obj.hasOwnProperty("proxy")) {
+            return true;
+        }
+    }
+    return false;
+};
+exports.isGeneralConfig = isGeneralConfig;
 //# sourceMappingURL=typeGourds.js.map

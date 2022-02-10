@@ -1,0 +1,19 @@
+name: Pastebin
+url: https://pastebin.pl/view/db44ef75
+useTor: false
+maxUrls: 54
+allPosts:
+  selector: ".container"
+params:
+  title:
+    selector: ".pagetitle"
+    regex: ""
+  content:
+    selector: ol
+    regex: ""
+  author:
+    selector: div.detail:nth-child(3) > b:nth-child(1)
+    regex: ""
+  date:
+    selector: div.detail:nth-child(3)
+    regex: ""

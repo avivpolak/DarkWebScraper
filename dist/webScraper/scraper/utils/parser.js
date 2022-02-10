@@ -42,6 +42,7 @@ const getPasteFromHtml = (Paste, params) => {
     try {
         const analyzedPaste = {};
         for (let param in params) {
+            console.log(params[param].selector);
             const htmlElement = Paste.querySelector(params[param].selector);
             if (htmlElement) {
                 const htmlText = htmlElement.textContent;

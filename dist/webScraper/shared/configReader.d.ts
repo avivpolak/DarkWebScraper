@@ -1,2 +1,3 @@
 import { Config } from "../../types/config";
-export declare const readConfig: (configPath: string) => Promise<Config | undefined>;
+import { GeneralConfig } from "../../types/generalConfig";
+export declare const readConfig: (configPath: string) => Promise<Config | GeneralConfig | undefined>;

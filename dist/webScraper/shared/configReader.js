@@ -30,12 +30,13 @@ const typeGourds_1 = require("../../types/typeGourds");
 const readConfig = async (configPath) => {
     try {
         const config = await yaml_1.default.parse(fs.readFileSync(path_1.default.join(__dirname, configPath), "utf8"));
-        console.log(config);
         if ((0, typeGourds_1.isConfig)(config)) {
             return makeItRegex(config);
         }
-        else
-            return undefined;
+        else if ((0, typeGourds_1.isGeneralConfig)(config)) {
+            return config;
+        }
+        return undefined;
     }
     catch (error) {
         console.log(error);
@@ -47,7 +48,7 @@ const readConfig = async (configPath) => {
 exports.readConfig = readConfig;
 const makeItRegex = (config) => {
     const newConfig = config;
-    Object.keys(newConfig.params).forEach(param => {
+    Object.keys(newConfig.params).forEach((param) => {
         newConfig.params[param].regex = new RegExp(newConfig.params[param].regex);
     });
     return newConfig;

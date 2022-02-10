@@ -1,14 +1,18 @@
-import Pastebin from "../configs/sites/Pastebin";
-import scratchbook from "../configs/sites/scratchbook";
-import Stronghold from "../configs/sites/Stronghold";
+import { isConfig } from "../types/typeGourds";
 import scrape from "./scraper/scraper";
-// import { readConfig } from "./shared/configReader";
+import { readConfig } from "./shared/configReader";
+import fs from "fs";
+import path from "path";
 
-// console.log(readConfig("../../config.yaml"),config)
-// readConfig("../../config.yaml")
-// setInterval(() => {
-scrape(Stronghold);
-// }, 120000);
 
-// import {getLabels} from "../analyzer/labels";
-// getLabels()
+const run = async () => {
+    // const configYamls = fs.readdirSync(path.join(__dirname, "../../configs/sites"));
+    // for (const configYaml of configYamls) {
+        // const config = await readConfig(`../../../configs/sites/${configYaml}`);
+        const config = await readConfig(`../../../configs/sites/pastebin.yaml`);
+        if (config && isConfig(config)) {
+            scrape(config);
+        }
+    // }
+};
+run();

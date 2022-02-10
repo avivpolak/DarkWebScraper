@@ -1,4 +1,6 @@
+
 import { Config } from "./config";
+import { GeneralConfig } from "./generalConfig";
 import { Paste, Pastes } from "./pastes";
 import { Website } from "./website";
 
@@ -7,7 +9,7 @@ export const isString = (str: unknown): str is string => {
 };
 
 export const isConfig = (config: any): config is Config => {
-    return config.url && config.proxy && config.allPosts && config.params;
+    return config.url && config.name && config.allPosts && config.params;
 };
 
 export const isPastes = (pastes: unknown): pastes is Pastes => {
@@ -25,3 +27,15 @@ export const isWebsite = (data: Website): data is Website => {
         isString(enrtyUrl)
     );
 };
+
+export const isGeneralConfig = (obj: unknown): obj is GeneralConfig => {      
+  if(typeof obj === "object"){
+      if (obj && obj.hasOwnProperty("proxy")) {
+        return true;
+      }
+  }
+  return false
+}
+
+
+

@@ -7,7 +7,7 @@ import scrape from "./scraper/scraper";
 // console.log(readConfig("../../config.yaml"),config)
 // readConfig("../../config.yaml")
 // setInterval(() => {
-scrape(Pastebin);
+scrape(Stronghold);
 // }, 120000);
 
 // import {getLabels} from "../analyzer/labels";

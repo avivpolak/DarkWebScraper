@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const config = {
     name: "Pastebin",
-    url: "https://pastebin.pl/lists",
+    url: "https://pastebin.pl/view/db44ef75",
     useTor: false,
-    maxUrls: 150,
+    maxUrls: 10,
     allPosts: { selector: "div.container:nth-child(2)" },
     params: {
         title: { selector: ".pagetitle", regex: new RegExp("") },

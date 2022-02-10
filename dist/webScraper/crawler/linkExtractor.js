@@ -9,15 +9,17 @@ const typeGourds_1 = require("../../types/typeGourds");
 const fetcher_1 = require("../scraper/utils/fetcher");
 const cash_1 = require("../shared/cash");
 const getFullUrlList = async (config) => {
-    const urlsFromCash = await (0, cash_1.readCash)();
-    if (urlsFromCash.length >= config.maxUrls) {
-        return urlsFromCash.slice(0, config.maxUrls);
+    const urlsFromCash = await (0, cash_1.readCash)(config.name);
+    if (urlsFromCash &&
+        urlsFromCash.data.length >= config.maxUrls &&
+        config.url === urlsFromCash.config.url) {
+        return urlsFromCash.data.slice(0, config.maxUrls);
     }
     else {
         const urlList = await getUrlListFromUrl(config);
         if (urlList) {
             const overalPageUrls = await searchForUrlsFromAGivenUrlList(urlList, config);
-            (0, cash_1.writeCash)(overalPageUrls);
+            (0, cash_1.writeCash)(overalPageUrls, config);
             return overalPageUrls;
         }
         return undefined;
@@ -29,7 +31,6 @@ const searchForUrlsFromAGivenUrlList = async (urlList, config) => {
     let continueFlag = true;
     while (continueFlag && overalPageUrls.length <= config.maxUrls) {
         for (const url of urlList) {
-            console.log(overalPageUrls.length);
             const newConfig = { ...config, url };
             const urls2level = await getUrlListFromUrl(newConfig);
             if (urls2level) {
@@ -53,11 +54,12 @@ const searchForUrlsFromAGivenUrlList = async (urlList, config) => {
 };
 const getUrlListFromUrl = async (config) => {
     try {
-        const html = await (0, fetcher_1.fetchData)(config.url, config.proxy);
+        const html = await (0, fetcher_1.fetchData)(config.url, config.useTor);
         if ((0, typeGourds_1.isString)(html)) {
             const parseResult = (0, node_html_parser_1.default)(html);
             if (parseResult) {
-                return await getPagesLinkes(parseResult, config);
+                const links = await getPagesLinkes(parseResult, config);
+                return links;
             }
         }
         return undefined;
@@ -66,16 +68,19 @@ const getUrlListFromUrl = async (config) => {
         console.log(error);
     }
 };
-const getPagesLinkes = (parseResult, config) => {
-    const aElements = parseResult.querySelectorAll("a");
+const getPagesLinkes = async (parseResult, config) => {
+    const aElements = await parseResult.querySelectorAll("a");
     const links = aElements
-        .map((aElement) => aElement.rawAttributes.href)
+        .map((aElement) => {
+        return aElement.rawAttributes.href;
+    })
         .filter((link) => {
         if ((0, typeGourds_1.isString)(link)) {
-            return ((0, regex_1.extractDataFromText)(link, /(?<=\/\/)(.*\n?)(?=.onion)/) ===
-                (0, regex_1.extractDataFromText)(config.url, /(?<=\/\/)(.*\n?)(?=.onion)/));
+            return ((0, regex_1.extractDataFromText)(link, /(?<=\/\/)(.*\n?)(?=\.)/) ===
+                (0, regex_1.extractDataFromText)(config.url, /(?<=\/\/)(.*\n?)(?=\.)/));
         }
     });
     return links;
 };
 exports.default = getFullUrlList;
+//# sourceMappingURL=linkExtractor.js.map

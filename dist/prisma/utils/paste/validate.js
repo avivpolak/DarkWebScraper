@@ -26,3 +26,4 @@ const isExsistsInDb = async (data) => {
         return paste ? true : false;
     }
 };
+//# sourceMappingURL=validate.js.map

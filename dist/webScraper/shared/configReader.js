@@ -52,3 +52,4 @@ const makeItRegex = (config) => {
     });
     return newConfig;
 };
+//# sourceMappingURL=configReader.js.map

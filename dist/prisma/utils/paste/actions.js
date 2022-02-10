@@ -61,3 +61,4 @@ const getPastesByQueryFromDb = async (query) => {
     });
 };
 exports.getPastesByQueryFromDb = getPastesByQueryFromDb;
+//# sourceMappingURL=actions.js.map

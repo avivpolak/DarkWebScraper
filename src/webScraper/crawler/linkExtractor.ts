@@ -9,17 +9,22 @@ import { readCash, writeCash } from "../shared/cash";
 const getFullUrlList = async (
     config: Config
 ): Promise<string[] | undefined> => {
-    const urlsFromCash = await readCash();
-    if (urlsFromCash.length >= config.maxUrls) {
-        return urlsFromCash.slice(0, config.maxUrls);
+    const urlsFromCash = await readCash(config.name);
+    if (
+        urlsFromCash &&
+        urlsFromCash.data.length >= config.maxUrls &&
+        config.url === urlsFromCash.config.url
+    ) {
+        return urlsFromCash.data.slice(0, config.maxUrls);
     } else {
         const urlList: string[] | undefined = await getUrlListFromUrl(config);
+        
         if (urlList) {
             const overalPageUrls = await searchForUrlsFromAGivenUrlList(
                 urlList,
                 config
             );
-            writeCash(overalPageUrls);
+            writeCash(overalPageUrls, config);
             return overalPageUrls;
         }
         return undefined;
@@ -35,7 +40,6 @@ const searchForUrlsFromAGivenUrlList = async (
     let continueFlag = true;
     while (continueFlag && overalPageUrls.length <= config.maxUrls) {
         for (const url of urlList) {
-            console.log(overalPageUrls.length);
             const newConfig = { ...config, url };
             const urls2level = await getUrlListFromUrl(newConfig);
             if (urls2level) {
@@ -59,11 +63,12 @@ const getUrlListFromUrl = async (
     config: Config
 ): Promise<string[] | undefined> => {
     try {
-        const html: unknown = await fetchData(config.url, config.proxy);
+        const html: unknown = await fetchData(config.url,config.useTor);
         if (isString(html)) {
             const parseResult = parse(html);
             if (parseResult) {
-                return await getPagesLinkes(parseResult, config);
+                const links = await getPagesLinkes(parseResult, config);
+                return links;
             }
         }
         return undefined;
@@ -72,18 +77,17 @@ const getUrlListFromUrl = async (
     }
 };
 
-const getPagesLinkes = (parseResult: HTMLElement, config: Config) => {
-    const aElements = parseResult.querySelectorAll("a");
+const getPagesLinkes = async(parseResult: HTMLElement, config: Config) => {
+    const aElements = await parseResult.querySelectorAll("a");
     const links = aElements
-        .map((aElement) => aElement.rawAttributes.href)
+        .map((aElement) => {
+            return aElement.rawAttributes.href;
+        })
         .filter((link) => {
             if (isString(link)) {
                 return (
-                    extractDataFromText(link, /(?<=\/\/)(.*\n?)(?=.onion)/) ===
-                    extractDataFromText(
-                        config.url,
-                        /(?<=\/\/)(.*\n?)(?=.onion)/
-                    )
+                    extractDataFromText(link, /(?<=\/\/)(.*\n?)(?=\.)/) ===
+                    extractDataFromText(config.url, /(?<=\/\/)(.*\n?)(?=\.)/)
                 );
             }
         });

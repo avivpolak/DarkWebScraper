@@ -56,8 +56,10 @@ const getPasteFromHtml = (Paste, params) => {
         return analyzedPaste;
     }
     catch (error) {
+        console.log(error);
         if (typeof error === "string") {
             throw new Error(error);
         }
     }
 };
+//# sourceMappingURL=parser.js.map

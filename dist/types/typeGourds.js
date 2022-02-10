@@ -24,3 +24,4 @@ const isWebsite = (data) => {
         (0, exports.isString)(enrtyUrl));
 };
 exports.isWebsite = isWebsite;
+//# sourceMappingURL=typeGourds.js.map

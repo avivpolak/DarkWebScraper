@@ -10,7 +10,7 @@ export const doInParalel = async (
     let count = 1;
     const promisesList = [];
     for (const part of data) {
-        console.clear();
+        // console.clear();
         console.log(verbToMonitor, count, "/", data.length);
         count++;
 

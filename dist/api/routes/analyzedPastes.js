@@ -11,3 +11,4 @@ analyzedPastesRouter.get('/delete', analyzedPastes_1.deleteAllPastes);
 analyzedPastesRouter.get('/:query', analyzedPastes_1.getPastesByQuery);
 analyzedPastesRouter.get('/', analyzedPastes_1.getAllPastes);
 exports.default = analyzedPastesRouter;
+//# sourceMappingURL=analyzedPastes.js.map

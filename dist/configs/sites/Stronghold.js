@@ -1,12 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const config = {
+    name: "Stronghold",
     url: "http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all",
-    proxy: {
-        port: 8118,
-        host: "localhost",
-    },
-    maxUrls: 242,
+    useTor: true,
+    maxUrls: 50,
     allPosts: { selector: ".col-sm-12" },
     params: {
         title: { selector: "h4", regex: new RegExp("") },
@@ -19,3 +17,4 @@ const config = {
     },
 };
 exports.default = config;
+//# sourceMappingURL=Stronghold.js.map

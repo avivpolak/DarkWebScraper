@@ -15,3 +15,4 @@ const extractDataFromText = (text, regex) => {
     }
 };
 exports.extractDataFromText = extractDataFromText;
+//# sourceMappingURL=regex.js.map

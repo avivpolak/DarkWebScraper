@@ -1,13 +1,10 @@
 export interface Config {
+    name: string;
     url: string;
-    proxy: Proxy;
+    useTor: boolean;
     allPosts: AllPosts;
     params: Params;
     maxUrls: number;
-}
-export interface Proxy {
-    port: number;
-    host: string;
 }
 export interface AllPosts {
     selector: string;

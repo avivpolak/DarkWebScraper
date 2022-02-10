@@ -8,3 +8,4 @@ const getSentimentFromText = (text) => {
     return analyzer.getSentiment(tokenizer.tokenize(text));
 };
 exports.getSentimentFromText = getSentimentFromText;
+//# sourceMappingURL=sentimentor.js.map

@@ -63,7 +63,9 @@ const getPasteFromHtml = (
         }
         return analyzedPaste;
     } catch (error: unknown) {
+        console.log(error)
         if (typeof error === "string") {
+     
             throw new Error(error);
         }
     }

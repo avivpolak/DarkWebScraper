@@ -22,3 +22,4 @@ const saveAll = async (data) => {
     }
 };
 exports.saveAll = saveAll;
+//# sourceMappingURL=db.js.map

@@ -22,3 +22,4 @@ const scrape = async (config) => {
     }
 };
 exports.default = scrape;
+//# sourceMappingURL=scraper.js.map

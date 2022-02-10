@@ -1,12 +1,16 @@
 import axios from "axios";
-import { Proxy } from "../../../types/config";
+import generalConfig from "../../../configs/general";
 
-export const fetchData = async (url: string, proxy: Proxy): Promise<any> => {
+export const fetchData = async (url: string, useTor: boolean): Promise<any> => {
     try {
-        const response = await axios.get(url, {
-            proxy,
-        });
-        return response.data;
+        let response: any = {};
+        if (useTor) {
+            response = await axios.get(url, { proxy: generalConfig.proxy });
+            return response.data;
+        } else {
+            response = await axios.get(url);
+            return response.data;
+        }
     } catch (error: unknown) {
         if (typeof error === "string") {
             throw new Error(error);

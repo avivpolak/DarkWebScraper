@@ -1,1 +1,2 @@
-export declare const getLabels: () => Promise<void>;
+declare const spacyNLP: any;
+declare var serverPromise: any;

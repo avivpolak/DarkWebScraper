@@ -7,17 +7,18 @@ exports.fetchData = void 0;
 const axios_1 = __importDefault(require("axios"));
 const typeGourds_1 = require("../../../types/typeGourds");
 const configReader_1 = require("../../shared/configReader");
+const isURL_1 = __importDefault(require("validator/lib/isURL"));
 const fetchData = async (url, useTor) => {
     try {
         let response = {};
         const generalConfig = await (0, configReader_1.readConfig)("../../../configs/general.yaml");
-        if ((0, typeGourds_1.isGeneralConfig)(generalConfig)) {
+        if ((0, typeGourds_1.isGeneralConfig)(generalConfig) && (0, isURL_1.default)(url)) {
             if (useTor) {
                 response = await axios_1.default.get(url, { proxy: generalConfig.proxy });
                 return response.data;
             }
             else {
-                response = await axios_1.default.get(url, { headers: { host: "atlas.microsoft.com" } });
+                response = await axios_1.default.get(url);
                 return response.data;
             }
         }

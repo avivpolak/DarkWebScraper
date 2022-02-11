@@ -1,15 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 import { Paste } from "../../../types/pastes";
 import { isValidAndNew } from "./validate";
-
 const prisma = new PrismaClient();
 
 export const saveToDb = async (data: Paste) => {
-    if (await isValidAndNew(data)) {
+    try {
         await prisma.paste.create({
             data,
         });
         console.log("saved!");
+    } catch (error) {
+        throw new Error("error");
     }
 };
 export const deleteAllPastesFromDb = async () => {
@@ -18,7 +19,7 @@ export const deleteAllPastesFromDb = async () => {
 export const getAllPastesFromDb = async () => {
     return await prisma.paste.findMany({
         orderBy: {
-            santimate: "desc",
+            santimate: "asc",
         },
     });
 };
@@ -29,31 +30,31 @@ export const getPastesByQueryFromDb = async (query: string) => {
                 {
                     content: {
                         contains: query,
-                        mode: 'insensitive'
+                        mode: "insensitive",
                     },
                 },
                 {
                     title: {
                         contains: query,
-                        mode: 'insensitive'
+                        mode: "insensitive",
                     },
                 },
                 {
                     author: {
                         contains: query,
-                        mode: 'insensitive'
+                        mode: "insensitive",
                     },
                 },
                 {
                     date: {
                         contains: query,
-                        mode: 'insensitive'
+                        mode: "insensitive",
                     },
                 },
             ],
         },
         orderBy: {
-            santimate: "desc",
+            santimate: "asc",
         },
     });
 };

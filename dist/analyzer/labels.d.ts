@@ -1,2 +1,1 @@
-declare const spacyNLP: any;
-declare var serverPromise: any;
+export declare const getLabelsFromText: (text: string) => Promise<string[] | undefined>;

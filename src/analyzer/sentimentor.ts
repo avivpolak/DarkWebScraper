@@ -1,21 +1,25 @@
-import {SentimentAnalyzer,PorterStemmer,WordTokenizer} from 'natural';
-import { fetchData } from '../webScraper/scraper/utils/fetcher';
- 
-const tokenizer = new WordTokenizer();
-const analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
+import language from "@google-cloud/language";
+import { Plain } from "../types/google";
+const client = new language.LanguageServiceClient();
 
-export const getSentimentFromText=(text:string):number=>{
-
-return analyzer.getSentiment(tokenizer.tokenize(text));
-}
-const getLabels =async (text:string)=>{
-const token = tokenizer.tokenize(text)
-for (let word of token){
+export const getSentimentFromText = async (
+    text: string
+): Promise<number | undefined> => {
     try {
-        const res = await fetchData(`https://wordsapiv1.p.mashape.com/words/${word}`,false)
-        console.log(res)
+        const type: Plain = "PLAIN_TEXT";
+        const document = {
+            content: text,
+            type: type,
+        };
+        const res = await client.analyzeSentiment({ document: document });
+        if (res) {
+            const sentement = res[0].documentSentiment;
+            if(sentement && sentement.score){
+                 return sentement?.score
+            }
+        }
+        return undefined;
     } catch (error) {
-        
+        return undefined;
     }
-}
-}
+};

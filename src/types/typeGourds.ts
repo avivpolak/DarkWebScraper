@@ -1,4 +1,4 @@
-
+import { google } from "@google-cloud/language/build/protos/protos";
 import { Config } from "./config";
 import { GeneralConfig } from "./generalConfig";
 import { Paste, Pastes } from "./pastes";
@@ -21,21 +21,14 @@ export const isPaste = (paste: unknown): paste is Paste => {
 };
 export const isWebsite = (data: Website): data is Website => {
     const { enrtyUrl, urls } = data;
-    return (
-        isString(urls) &&
-        urls.length < 2703 &&
-        isString(enrtyUrl)
-    );
+    return isString(urls) && urls.length < 2703 && isString(enrtyUrl);
 };
 
-export const isGeneralConfig = (obj: unknown): obj is GeneralConfig => {      
-  if(typeof obj === "object"){
-      if (obj && obj.hasOwnProperty("proxy")) {
-        return true;
-      }
-  }
-  return false
-}
-
-
-
+export const isGeneralConfig = (obj: unknown): obj is GeneralConfig => {
+    if (typeof obj === "object") {
+        if (obj && obj.hasOwnProperty("proxy")) {
+            return true;
+        }
+    }
+    return false;
+};

@@ -33,6 +33,14 @@ const getAllPastesFromDb = async () => {
     });
 };
 exports.getAllPastesFromDb = getAllPastesFromDb;
+const getRandomColor = () => {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
 const getLabelsStatisticsFromDb = async () => {
     const groups = await prisma.paste.groupBy({
         by: ["labels"],
@@ -42,13 +50,18 @@ const getLabelsStatisticsFromDb = async () => {
         where: {
             labels: {
                 isEmpty: false,
-            }
-        }
+            },
+        },
     });
-    const fullLabelName = groups.map((item) => item.labels.join(","));
-    const sum = groups.map((group) => group._count.id).reduce((a, b) => a + b, 0);
-    const persentage = groups.map((item) => item._count.id / sum * 100);
-    return { persentage, labels: fullLabelName };
+    const labels = groups.map((item) => item.labels.join(","));
+    const sum = groups
+        .map((group) => group._count.id)
+        .reduce((a, b) => a + b, 0);
+    const series = groups.map((item) => (item._count.id / sum) * 100);
+    const itemToSend = labels.map((label, index) => {
+        return { title: label, color: getRandomColor(), value: series[index] };
+    });
+    return itemToSend;
 };
 exports.getLabelsStatisticsFromDb = getLabelsStatisticsFromDb;
 const getPastesByQueryFromDb = async (query) => {

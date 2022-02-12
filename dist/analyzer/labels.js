@@ -20,6 +20,7 @@ const getLabelsFromText = async (text) => {
                 if (res[0].categories) {
                     if (res[0].categories[0]) {
                         if (res[0].categories[0].name) {
+                            console.log(res[0].categories[0].name);
                             return res[0].categories[0].name
                                 .split("/")
                                 .filter((category) => !!category);
@@ -30,6 +31,7 @@ const getLabelsFromText = async (text) => {
         }
     }
     catch (error) {
+        console.log(error);
         return undefined;
     }
 };

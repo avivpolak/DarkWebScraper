@@ -11,12 +11,14 @@ export const getLabelsFromText = async (text:string):Promise<string[] | undefine
             content: text,
             type: type,
         };
+        
         const res = await client.classifyText({ document: document });
         if (res) {
             if (res[0]) {
                 if (res[0].categories) {
                     if (res[0].categories[0]) {
                         if (res[0].categories[0].name) {
+                            console.log(res[0].categories[0].name)
                             return res[0].categories[0].name
                                 .split("/")
                                 .filter((category) => !!category);
@@ -26,6 +28,7 @@ export const getLabelsFromText = async (text:string):Promise<string[] | undefine
             }
         }
     } catch (error) {
+        console.log(error)
         return undefined;
     }
 };

@@ -1,12 +1,20 @@
 //express server
+import bodyParser from 'body-parser';
+const jsonParser = bodyParser.json();
 import express from "express";
-const app = express();
+import cors from "cors"
+
+
 const port = 3000;
+
+const app = express();
+
+app.use(cors());
 
 
 //routes
 import analyzedPastesRouter from "./routes/analyzedPastes";
-app.use("/", analyzedPastesRouter);
+app.use("/",jsonParser, analyzedPastesRouter);
 
 //listen
 const server =app.listen(port, () => {

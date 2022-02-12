@@ -9,6 +9,8 @@ const typeGourds_1 = require("../../types/typeGourds");
 const fetcher_1 = require("../scraper/utils/fetcher");
 const cash_1 = require("../shared/cash");
 const isUrl_1 = __importDefault(require("validator/lib/isUrl"));
+const cliProgress = require("cli-progress");
+const bar = new cliProgress.SingleBar({ format: 'Collecting URLS: ' + '{bar}' + ' {percentage}% || {value}/{total} URLS' }, cliProgress.Presets.shades_grey);
 const getFullUrlList = async (config) => {
     const urlsFromCash = await (0, cash_1.readCash)(config.name);
     if (urlsFromCash &&
@@ -30,6 +32,7 @@ const searchForUrlsFromAGivenUrlList = async (urlList, config) => {
     const overalPageUrls = urlList;
     overalPageUrls.push(config.url);
     let continueFlag = true;
+    bar.start(config.maxUrls, 0);
     while (continueFlag && overalPageUrls.length <= config.maxUrls) {
         for (const url of urlList) {
             const newConfig = { ...config, url };
@@ -37,8 +40,7 @@ const searchForUrlsFromAGivenUrlList = async (urlList, config) => {
             if (urls2level) {
                 for (const url2level of urls2level) {
                     if (!overalPageUrls.includes(url2level)) {
-                        console.clear();
-                        console.log("collecting urls...", overalPageUrls.length, "/", config.maxUrls);
+                        bar.update(overalPageUrls.length);
                         overalPageUrls.push(url2level);
                         if (overalPageUrls.length >= config.maxUrls) {
                             continueFlag = false;
@@ -52,6 +54,7 @@ const searchForUrlsFromAGivenUrlList = async (urlList, config) => {
                 break;
         }
     }
+    bar.stop();
     return overalPageUrls;
 };
 const getUrlListFromUrl = async (config) => {

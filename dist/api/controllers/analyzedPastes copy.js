@@ -62,4 +62,4 @@ const getPastesByQuery = async (req, res) => {
     }
 };
 exports.getPastesByQuery = getPastesByQuery;
-//# sourceMappingURL=analyzedPastes.js.map
+//# sourceMappingURL=analyzedPastes%20copy.js.map

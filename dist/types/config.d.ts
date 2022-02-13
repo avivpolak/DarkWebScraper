@@ -6,6 +6,14 @@ export interface Config {
     params: Params;
     maxUrls: number;
 }
+export interface ConfigREGEXAsString {
+    name: string;
+    url: string;
+    useTor: boolean;
+    allPosts: AllPosts;
+    params: StringParams;
+    maxUrls: number;
+}
 export interface ReqConfig {
     allPostsSelector: string;
     maxUrls: string;
@@ -24,6 +32,7 @@ export interface ReqConfig {
     param4Selector: string;
     url: string;
     useTor: boolean;
+    save: boolean;
 }
 export interface AllPosts {
     selector: string;
@@ -32,6 +41,13 @@ export interface Param {
     selector: string;
     regex: RegExp;
 }
+export interface StringParam {
+    selector: string;
+    regex: string;
+}
 export interface Params {
     [key: string]: Param;
+}
+export interface StringParams {
+    [key: string]: StringParam;
 }

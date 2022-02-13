@@ -1,19 +1,19 @@
 name: Stronghold
 url: http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all
 useTor: true
-maxUrls: 243
+maxUrls: 250
 allPosts:
   selector: .col-sm-12
 params:
   title:
     selector: h4
-    regex: ""
+    regex: /(?:)/
   content:
     selector: ol
-    regex: ""
+    regex: /(?:)/
   author:
     selector: .col-sm-6
-    regex: /(?<=(\\w+\\s){2})(\\w+)/
+    regex: /(?<=(\w+\s){2})(\w+)/
   date:
     selector: .col-sm-6
-    regex: /\\d+\\s[a-zA-Z]+\\s\\d+,\\s\\d+:\\d+:\\d+\\s[a-zA-Z]+/
+    regex: /\d+\s[a-zA-Z]+\s\d+,\s\d+:\d+:\d+\s[a-zA-Z]+/

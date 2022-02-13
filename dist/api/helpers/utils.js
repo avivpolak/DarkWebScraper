@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertToStandartConfig = void 0;
+const configReader_1 = require("../../webScraper/shared/configReader");
 const convertToStandartConfig = (reqConfig) => {
     const config = {
         name: reqConfig.name,
@@ -29,6 +30,9 @@ const convertToStandartConfig = (reqConfig) => {
             },
         },
     };
+    if (reqConfig.save) {
+        (0, configReader_1.writeConfig)(config, "../../../configs/sites");
+    }
     return config;
 };
 exports.convertToStandartConfig = convertToStandartConfig;

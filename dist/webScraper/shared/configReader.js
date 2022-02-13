@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readConfig = void 0;
+exports.writeConfig = exports.readConfig = void 0;
 const yaml_1 = __importDefault(require("yaml"));
 const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -46,10 +46,39 @@ const readConfig = async (configPath) => {
     }
 };
 exports.readConfig = readConfig;
+const writeConfig = async (config, pathStr) => {
+    try {
+        const yamlConfig = await yaml_1.default.stringify(stringifyRegex(config));
+        const overallPath = path_1.default.join(__dirname, pathStr, `/${config.name}-custom.yaml`);
+        console.log(overallPath);
+        fs.writeFile(overallPath, yamlConfig, (err) => {
+            if (err) {
+                console.log(err);
+            }
+        });
+    }
+    catch (error) {
+        console.log(error);
+        if ((0, typeGourds_1.isString)(error)) {
+            throw new Error(error);
+        }
+    }
+};
+exports.writeConfig = writeConfig;
 const makeItRegex = (config) => {
     const newConfig = config;
     Object.keys(newConfig.params).forEach((param) => {
+        console.log(newConfig.params[param].regex);
         newConfig.params[param].regex = new RegExp(newConfig.params[param].regex);
+    });
+    return newConfig;
+};
+const stringifyRegex = (config) => {
+    const newConfig = config;
+    Object.keys(newConfig.params).forEach((param) => {
+        console.log(newConfig.params[param].regex);
+        newConfig.params[param].regex =
+            newConfig.params[param].regex.toString();
     });
     return newConfig;
 };

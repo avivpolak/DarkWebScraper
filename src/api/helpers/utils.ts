@@ -1,6 +1,7 @@
 import { Config, ReqConfig } from "../../types/config";
+import { writeConfig } from "../../webScraper/shared/configReader";
 
-export const convertToStandartConfig = (reqConfig: ReqConfig):Config => {
+export const convertToStandartConfig = (reqConfig: ReqConfig): Config => {
     const config: Config = {
         name: reqConfig.name,
         url: reqConfig.url,
@@ -28,5 +29,9 @@ export const convertToStandartConfig = (reqConfig: ReqConfig):Config => {
             },
         },
     };
-    return config
+    if (reqConfig.save) {
+        writeConfig(config,"../../../configs/sites");
+    }
+    return config;
 };
+

@@ -24,6 +24,7 @@ const scrape = async (config) => {
 };
 const custumScrape = async (config) => {
     try {
+        console.log(config);
         const fullUrlList = await (0, linkExtractor_1.default)(config);
         if (fullUrlList) {
             const pastes = await (0, paralelWork_1.doInParalel)(fullUrlList, pageScraper_1.pageScraper, typeGourds_1.isString, "extracting data from pages...", config);

@@ -31,6 +31,7 @@ const scrape = async (config: Config) => {
 
 export const custumScrape = async (config: Config) => {
     try {
+        console.log(config)
         const fullUrlList = await getFullUrlList(config);
         if (fullUrlList) {
             const pastes = await doInParalel(

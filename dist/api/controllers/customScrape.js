@@ -7,8 +7,7 @@ const getCustumScrape = async (req, res) => {
     try {
         const config = (0, utils_1.convertToStandartConfig)(req.body);
         const allPastes = await (0, scraper_1.custumScrape)(config);
-        console.log(allPastes);
-        if (allPastes) {
+        if (allPastes.length > 0) {
             return res.status(200).json({ data: allPastes });
         }
         else {

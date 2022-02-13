@@ -28,7 +28,7 @@ const getAllPastesFromDb = async () => {
             date: true,
         },
         orderBy: {
-            date: "asc",
+            date: "desc",
         },
     });
 };
@@ -94,8 +94,14 @@ const getPastesByQueryFromDb = async (query) => {
                 },
             ],
         },
+        select: {
+            title: true,
+            author: true,
+            labels: true,
+            date: true,
+        },
         orderBy: {
-            santimate: "asc",
+            date: "desc",
         },
     });
 };

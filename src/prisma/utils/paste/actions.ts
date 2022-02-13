@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { Paste } from "../../../types/pastes";
-import { isValidAndNew } from "./validate";
 const prisma = new PrismaClient();
 
 export const saveToDb = async (data: Paste) => {
@@ -25,7 +24,7 @@ export const getAllPastesFromDb = async () => {
             date: true,
         },
         orderBy: {
-            date: "asc",
+            date: "desc",
         },
     });
 };
@@ -92,8 +91,15 @@ export const getPastesByQueryFromDb = async (query: string) => {
                 },
             ],
         },
-        orderBy: {
-            santimate: "asc",
+        select: {
+            title: true,
+            author: true,
+            labels: true,
+            date: true,
         },
+        orderBy: {
+            date: "desc",
+        },
+
     });
 };

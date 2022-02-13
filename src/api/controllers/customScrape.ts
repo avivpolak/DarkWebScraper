@@ -14,7 +14,7 @@ export const getCustumScrape = async (req: Request, res: Response) => {
 
         const allPastes = await custumScrape(config);
 
-        if (allPastes.length>0) {
+        if (allPastes&& allPastes.length>0) {
             return res.status(200).json({data:allPastes});
         } else {
             return res.status(404).send("No posts found");

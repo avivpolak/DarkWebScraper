@@ -4,6 +4,7 @@ import { getSentimentFromText } from "../../analyzer/sentimentor";
 import { Pastes } from "../../types/pastes";
 import { isValidAndNew } from "../../prisma/utils/paste/validate";
 import { getLabelsFromText } from "../../analyzer/labels";
+
 const prisma = new PrismaClient();
 
 export const saveAll = async (data: Pastes) => {

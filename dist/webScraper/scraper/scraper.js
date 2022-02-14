@@ -11,14 +11,15 @@ const paralelWork_1 = require("../shared/paralelWork");
 const pageScraper_1 = require("./utils/pageScraper");
 const scrape = async (config) => {
     try {
+        console.log(`Started scraping "${config.name}"`);
         const fullUrlList = await (0, linkExtractor_1.default)(config);
         if (fullUrlList) {
-            const [pastes, pastesProgressBar] = await (0, paralelWork_1.doInParalel)(fullUrlList, pageScraper_1.pageScraper, typeGourds_1.isString, "extracting data from pages...", config);
+            const [pastes, pastesProgressBar] = await (0, paralelWork_1.doInParalel)(fullUrlList, pageScraper_1.pageScraper, typeGourds_1.isString, "Extracting data from pages   ", config);
             pastesProgressBar.stop();
             const [saves, savesProgressBar] = await (0, paralelWork_1.doInParalel)(pastes, db_1.saveAll, typeGourds_1.isPastes, "");
             savesProgressBar.stop();
         }
-        console.log("finish scraping");
+        console.log(`Finish scraping ${config.name}`);
     }
     catch (error) {
         console.log(error);
@@ -31,7 +32,7 @@ const custumScrape = async (config) => {
             const pastes = await (0, paralelWork_1.doInParalel)(fullUrlList, pageScraper_1.pageScraper, typeGourds_1.isString, "extracting data from pages...", config);
             const nonDuplicatedPastes = [];
             for (let urlPastes of pastes) {
-                if (urlPastes) {
+                if (urlPastes && urlPastes.length > 0) {
                     for (let paste of urlPastes) {
                         if (!nonDuplicatedPastes.includes(paste)) {
                             nonDuplicatedPastes.push(paste);

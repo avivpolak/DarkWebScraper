@@ -11,7 +11,14 @@ const ScrapeEveryYamlInConfig = async () => {
     //     const config = await readConfig(`../../../configs/sites/${configYaml}`);
         const config = await readConfig(`../../../configs/sites/stronghold.yaml`);
         if (config && isConfig(config)) {
+          console.log("First Time:")
+          console.time("In");
           await scrape(config);
+          console.timeEnd("In");
+          console.log("Second Time:")
+          console.time("In");
+          await scrape(config);
+          console.timeEnd("In");
         }
     // }
 };

@@ -16,6 +16,7 @@ const getFullUrlList = async (config) => {
     if (urlsFromCash &&
         urlsFromCash.data.length >= config.maxUrls &&
         config.url === urlsFromCash.config.url) {
+        console.log("Got the URLs from cashe.");
         return urlsFromCash.data.slice(0, config.maxUrls);
     }
     else {
@@ -23,6 +24,7 @@ const getFullUrlList = async (config) => {
         if (urlList) {
             const overalPageUrls = await searchForUrlsFromAGivenUrlList(urlList, config);
             (0, cash_1.writeCash)(overalPageUrls, config);
+            console.log("Wrote the URLs to cache.");
             return overalPageUrls;
         }
         return undefined;

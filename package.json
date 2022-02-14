@@ -37,7 +37,7 @@
   },
   "scripts": {
     "labelapi": "tsc-watch  -p ./tsconfig.json --onSuccess \"node dist/analyzer/labels.js\"",
-    "scrap": "tsc-watch  -p ./tsconfig.json --onSuccess \"node dist/webScraper/index.js\"",
+    "scrap": "tsc && node dist/webScraper/index.js",
     "api": "tsc-watch  -p ./tsconfig.json --onSuccess \"node dist/api/index.js\"",
     "db": "tsc && node dist/prisma/index.js",
     "build": "tsc && tsc-watch",

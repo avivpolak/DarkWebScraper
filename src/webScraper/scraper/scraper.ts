@@ -7,25 +7,26 @@ import { pageScraper } from "./utils/pageScraper";
 
 const scrape = async (config: Config) => {
     try {
+        console.log(`Started scraping "${config.name}"`);
         const fullUrlList = await getFullUrlList(config);
         if (fullUrlList) {
-            const [pastes,pastesProgressBar] = await doInParalel(
+            const [pastes, pastesProgressBar] = await doInParalel(
                 fullUrlList,
                 pageScraper,
                 isString,
-                "extracting data from pages...",
+                "Extracting data from pages   ",
                 config
             );
-            pastesProgressBar.stop()
-            const [saves,savesProgressBar]= await doInParalel(
+            pastesProgressBar.stop();
+            const [saves, savesProgressBar] = await doInParalel(
                 pastes,
                 saveAll,
                 isPastes,
                 ""
             );
-            savesProgressBar.stop()
+            savesProgressBar.stop();
         }
-        console.log("finish scraping")
+        console.log(`Finish scraping ${config.name}`);
     } catch (error) {
         console.log(error);
     }
@@ -33,7 +34,6 @@ const scrape = async (config: Config) => {
 
 export const custumScrape = async (config: Config) => {
     try {
-
         const fullUrlList = await getFullUrlList(config);
         if (fullUrlList) {
             const pastes = await doInParalel(
@@ -45,7 +45,7 @@ export const custumScrape = async (config: Config) => {
             );
             const nonDuplicatedPastes: any = [];
             for (let urlPastes of pastes) {
-                if (urlPastes) {
+                if (urlPastes && urlPastes.length > 0) {
                     for (let paste of urlPastes) {
                         if (!nonDuplicatedPastes.includes(paste)) {
                             nonDuplicatedPastes.push(paste);

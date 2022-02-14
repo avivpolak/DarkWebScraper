@@ -31,7 +31,8 @@ const readConfig = async (configPath) => {
     try {
         const config = await yaml_1.default.parse(fs.readFileSync(path_1.default.join(__dirname, configPath), "utf8"));
         if ((0, typeGourds_1.isConfig)(config)) {
-            return makeItRegex(config);
+            const regexConfig = makeItRegex(config);
+            return regexConfig;
         }
         else if ((0, typeGourds_1.isGeneralConfig)(config)) {
             return config;
@@ -68,7 +69,6 @@ exports.writeConfig = writeConfig;
 const makeItRegex = (config) => {
     const newConfig = config;
     Object.keys(newConfig.params).forEach((param) => {
-        console.log(newConfig.params[param].regex);
         newConfig.params[param].regex = new RegExp(newConfig.params[param].regex);
     });
     return newConfig;
@@ -76,7 +76,6 @@ const makeItRegex = (config) => {
 const stringifyRegex = (config) => {
     const newConfig = config;
     Object.keys(newConfig.params).forEach((param) => {
-        console.log(newConfig.params[param].regex);
         newConfig.params[param].regex =
             newConfig.params[param].regex.toString();
     });

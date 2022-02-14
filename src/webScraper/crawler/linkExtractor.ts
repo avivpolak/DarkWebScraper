@@ -6,9 +6,11 @@ import { isString } from "../../types/typeGourds";
 import { fetchData } from "../scraper/utils/fetcher";
 import { readCash, writeCash } from "../shared/cash";
 import isUrl from "validator/lib/isUrl";
-const cliProgress = require("cli-progress");
-const bar = new cliProgress.SingleBar({format: 'Collecting URLS: ' + '{bar}'+ ' {percentage}% || {value}/{total} URLS'}, cliProgress.Presets.shades_grey);
+import { bar } from "../shared/progressBar";
 
+
+
+const progressBar = bar('Collecting urls:              ')
 const getFullUrlList = async (
     config: Config
 ): Promise<string[] | undefined> => {
@@ -41,7 +43,7 @@ const searchForUrlsFromAGivenUrlList = async (
     const overalPageUrls = urlList;
     overalPageUrls.push(config.url);
     let continueFlag = true;    
-     bar.start(config.maxUrls, 0);
+    progressBar.start(config.maxUrls, 0);
     while (continueFlag && overalPageUrls.length <= config.maxUrls) {
    
         for (const url of urlList) {
@@ -50,7 +52,7 @@ const searchForUrlsFromAGivenUrlList = async (
             if (urls2level) {
                 for (const url2level of urls2level) {
                     if (!overalPageUrls.includes(url2level)) {
-                        bar.update(overalPageUrls.length);
+                        progressBar.update(overalPageUrls.length);
                         overalPageUrls.push(url2level);
                         if (overalPageUrls.length >= config.maxUrls) {
                             continueFlag = false;
@@ -62,7 +64,7 @@ const searchForUrlsFromAGivenUrlList = async (
             if (!continueFlag) break;
         }
     }
-    bar.stop();
+    progressBar.stop();
     return overalPageUrls;
 };
 const getUrlListFromUrl = async (

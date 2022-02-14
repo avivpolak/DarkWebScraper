@@ -9,5 +9,4 @@ const examplePaste = {
     author: "Anonymoasdus",
     santimate: 10,
 };
-console.log("testing save")
 saveToDb(examplePaste)

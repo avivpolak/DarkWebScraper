@@ -3,17 +3,17 @@ url: https://www.madlan.co.il/
 useTor: false
 maxUrls: 5
 allPosts:
-  selector: "#root > div"
+  selector: body
 params:
   title:
-    selector: div.css-dywgfi.eu6esji1 > div
+    selector: .css-19tpcfu .eu6esji3
     regex: /(?:)/
-  rooms:
-    selector: div.css-1yo09r9.eu6esji12 > div:nth-child(1)
+  content:
+    selector: .css-1i00gl6 .e1sx3tzs17
     regex: /(?:)/
   author:
-    selector: .col-sm-6
-    regex: /(?<=(\w+\s){2})(\w+)/
+    selector: .css-1i00gl6 .e1sx3tzs17
+    regex: /(?:)/
   date:
-    selector: .col-sm-6
-    regex: /\d+\s[a-zA-Z]+\s\d+,\s\d+:\d+:\d+\s[a-zA-Z]+/
+    selector: div.css-1yo09r9.eu6esji13 > div > div
+    regex: /(?:)/

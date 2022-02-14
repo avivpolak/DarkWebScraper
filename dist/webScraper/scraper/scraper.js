@@ -13,10 +13,12 @@ const scrape = async (config) => {
     try {
         const fullUrlList = await (0, linkExtractor_1.default)(config);
         if (fullUrlList) {
-            const pastes = await (0, paralelWork_1.doInParalel)(fullUrlList, pageScraper_1.pageScraper, typeGourds_1.isString, "extracting data from pages...", config);
-            await (0, paralelWork_1.doInParalel)(pastes, db_1.saveAll, typeGourds_1.isPastes, "saving the results...");
+            const [pastes, pastesProgressBar] = await (0, paralelWork_1.doInParalel)(fullUrlList, pageScraper_1.pageScraper, typeGourds_1.isString, "extracting data from pages...", config);
+            pastesProgressBar.stop();
+            const [saves, savesProgressBar] = await (0, paralelWork_1.doInParalel)(pastes, db_1.saveAll, typeGourds_1.isPastes, "");
+            savesProgressBar.stop();
         }
-        console.log("finished");
+        console.log("finish scraping");
     }
     catch (error) {
         console.log(error);

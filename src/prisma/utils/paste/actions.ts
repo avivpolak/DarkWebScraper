@@ -7,8 +7,9 @@ export const saveToDb = async (data: Paste) => {
         await prisma.paste.create({
             data,
         });
-        console.log("saved!");
+        console.log("item saved!")
     } catch (error) {
+        // console.log(error)
         throw new Error("error");
     }
 };

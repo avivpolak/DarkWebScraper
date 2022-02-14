@@ -8,6 +8,5 @@ const examplePaste = {
     author: "Anonymoasdus",
     santimate: 10,
 };
-console.log("testing save");
 (0, actions_1.saveToDb)(examplePaste);
 //# sourceMappingURL=prisma.js.map

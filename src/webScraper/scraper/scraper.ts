@@ -9,21 +9,23 @@ const scrape = async (config: Config) => {
     try {
         const fullUrlList = await getFullUrlList(config);
         if (fullUrlList) {
-            const pastes = await doInParalel(
+            const [pastes,pastesProgressBar] = await doInParalel(
                 fullUrlList,
                 pageScraper,
                 isString,
                 "extracting data from pages...",
                 config
             );
-            await doInParalel(
+            pastesProgressBar.stop()
+            const [saves,savesProgressBar]= await doInParalel(
                 pastes,
                 saveAll,
                 isPastes,
-                "saving the results..."
+                ""
             );
+            savesProgressBar.stop()
         }
-        console.log("finished");
+        console.log("finish scraping")
     } catch (error) {
         console.log(error);
     }

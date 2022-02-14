@@ -5,7 +5,6 @@ const client = new language.LanguageServiceClient();
 
 export const getLabelsFromText = async (text:string):Promise<string[] | undefined>=> {
     try {
-        console.log("analyizing")
         const type: Plain = "PLAIN_TEXT";
         const  document = {
             content: text,
@@ -18,7 +17,6 @@ export const getLabelsFromText = async (text:string):Promise<string[] | undefine
                 if (res[0].categories) {
                     if (res[0].categories[0]) {
                         if (res[0].categories[0].name) {
-                            console.log(res[0].categories[0].name)
                             return res[0].categories[0].name
                                 .split("/")
                                 .filter((category) => !!category);
@@ -28,7 +26,6 @@ export const getLabelsFromText = async (text:string):Promise<string[] | undefine
             }
         }
     } catch (error) {
-        console.log(error)
         return undefined;
     }
 };

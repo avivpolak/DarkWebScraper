@@ -8,7 +8,6 @@ const language_1 = __importDefault(require("@google-cloud/language"));
 const client = new language_1.default.LanguageServiceClient();
 const getLabelsFromText = async (text) => {
     try {
-        console.log("analyizing");
         const type = "PLAIN_TEXT";
         const document = {
             content: text,
@@ -20,7 +19,6 @@ const getLabelsFromText = async (text) => {
                 if (res[0].categories) {
                     if (res[0].categories[0]) {
                         if (res[0].categories[0].name) {
-                            console.log(res[0].categories[0].name);
                             return res[0].categories[0].name
                                 .split("/")
                                 .filter((category) => !!category);
@@ -31,7 +29,6 @@ const getLabelsFromText = async (text) => {
         }
     }
     catch (error) {
-        console.log(error);
         return undefined;
     }
 };

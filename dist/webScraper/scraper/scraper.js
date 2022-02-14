@@ -30,17 +30,17 @@ const custumScrape = async (config) => {
         const fullUrlList = await (0, linkExtractor_1.default)(config);
         if (fullUrlList) {
             const pastes = await (0, paralelWork_1.doInParalel)(fullUrlList, pageScraper_1.pageScraper, typeGourds_1.isString, "extracting data from pages...", config);
-            const nonDuplicatedPastes = [];
+            let nonDuplicatedPastes = [];
             for (let urlPastes of pastes) {
                 if (urlPastes && urlPastes.length > 0) {
                     for (let paste of urlPastes) {
-                        if (!nonDuplicatedPastes.includes(paste)) {
-                            nonDuplicatedPastes.push(paste);
-                        }
+                        console.log(nonDuplicatedPastes);
+                        nonDuplicatedPastes = nonDuplicatedPastes.concat(paste);
                     }
                 }
             }
-            return nonDuplicatedPastes;
+            nonDuplicatedPastes = nonDuplicatedPastes.filter((item) => item);
+            return [...new Set(nonDuplicatedPastes)];
         }
         console.log("finished");
     }

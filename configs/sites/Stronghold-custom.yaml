@@ -1,7 +1,7 @@
 name: Stronghold
 url: http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all
 useTor: true
-maxUrls: 243
+maxUrls: 50
 allPosts:
   selector: .col-sm-12
 params:

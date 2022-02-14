@@ -43,17 +43,19 @@ export const custumScrape = async (config: Config) => {
                 "extracting data from pages...",
                 config
             );
-            const nonDuplicatedPastes: any = [];
+            let nonDuplicatedPastes: any = [];
             for (let urlPastes of pastes) {
                 if (urlPastes && urlPastes.length > 0) {
                     for (let paste of urlPastes) {
-                        if (!nonDuplicatedPastes.includes(paste)) {
-                            nonDuplicatedPastes.push(paste);
-                        }
+                        console.log(nonDuplicatedPastes);
+                        nonDuplicatedPastes = nonDuplicatedPastes.concat(paste);
                     }
                 }
             }
-            return nonDuplicatedPastes;
+            nonDuplicatedPastes = nonDuplicatedPastes.filter(
+                (item: any) => item
+            );
+            return [...new Set(nonDuplicatedPastes)];
         }
         console.log("finished");
     } catch (error) {

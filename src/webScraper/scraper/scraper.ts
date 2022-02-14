@@ -47,7 +47,6 @@ export const custumScrape = async (config: Config) => {
             for (let urlPastes of pastes) {
                 if (urlPastes && urlPastes.length > 0) {
                     for (let paste of urlPastes) {
-                        console.log(nonDuplicatedPastes);
                         nonDuplicatedPastes = nonDuplicatedPastes.concat(paste);
                     }
                 }

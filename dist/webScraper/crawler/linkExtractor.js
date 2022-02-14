@@ -10,7 +10,7 @@ const fetcher_1 = require("../scraper/utils/fetcher");
 const cash_1 = require("../shared/cash");
 const isUrl_1 = __importDefault(require("validator/lib/isUrl"));
 const progressBar_1 = require("../shared/progressBar");
-const progressBar = (0, progressBar_1.bar)('Collecting urls:              ');
+const progressBar = (0, progressBar_1.bar)("Collecting urls:              ");
 const getFullUrlList = async (config) => {
     const urlsFromCash = await (0, cash_1.readCash)(config.name);
     if (urlsFromCash &&

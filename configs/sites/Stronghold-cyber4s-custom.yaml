@@ -1,7 +1,7 @@
 name: Stronghold-cyber4s
 url: http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all
 useTor: true
-maxUrls: 50
+maxUrls: 5
 allPosts:
   selector: .col-sm-12
 params:

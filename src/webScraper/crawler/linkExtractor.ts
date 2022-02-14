@@ -8,9 +8,7 @@ import { readCash, writeCash } from "../shared/cash";
 import isUrl from "validator/lib/isUrl";
 import { bar } from "../shared/progressBar";
 
-
-
-const progressBar = bar('Collecting urls:              ')
+const progressBar = bar("Collecting urls:              ");
 const getFullUrlList = async (
     config: Config
 ): Promise<string[] | undefined> => {
@@ -20,18 +18,17 @@ const getFullUrlList = async (
         urlsFromCash.data.length >= config.maxUrls &&
         config.url === urlsFromCash.config.url
     ) {
-        console.log("Got the URLs from cashe.")
+        console.log("Got the URLs from cashe.");
         return urlsFromCash.data.slice(0, config.maxUrls);
     } else {
         const urlList: string[] | undefined = await getUrlListFromUrl(config);
-
         if (urlList) {
             const overalPageUrls = await searchForUrlsFromAGivenUrlList(
                 urlList,
                 config
             );
             writeCash(overalPageUrls, config);
-            console.log("Wrote the URLs to cache.")
+            console.log("Wrote the URLs to cache.");
             return overalPageUrls;
         }
         return undefined;
@@ -44,10 +41,9 @@ const searchForUrlsFromAGivenUrlList = async (
 ): Promise<string[]> => {
     const overalPageUrls = urlList;
     overalPageUrls.push(config.url);
-    let continueFlag = true;    
+    let continueFlag = true;
     progressBar.start(config.maxUrls, 0);
     while (continueFlag && overalPageUrls.length <= config.maxUrls) {
-   
         for (const url of urlList) {
             const newConfig = { ...config, url };
             const urls2level = await getUrlListFromUrl(newConfig);

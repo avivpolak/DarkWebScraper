@@ -1,6 +1,6 @@
 # darkweb scraper
 
-Foobar is a Python library for dealing with word pluralization.
+typescript darkweb scraper 
 
 ## Installation
 
@@ -13,14 +13,25 @@ clone this repo
 
 put your configuration in ./configs/sites
 
+add .env file with:
+- postgresql link as DATABASE_URL="your link here"
+- google as env:GOOGLE_APPLICATION_CREDENTIALAS =C:\dev\...your path to env file
+
+set the database up:
 ```bash
 cd src
 npx prisma migrate reset
 npm run scrap
 ```
+run the scraper:
 ```bash
 npm run scrap
 ```
+run the api:
+```bash
+npm run api
+```
+
 
 
 ## Contributing

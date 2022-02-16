@@ -24,5 +24,5 @@ const ScrapeEveryYamlInConfig = async () => {
     // }
 };
 ScrapeEveryYamlInConfig(); //because set time out start with waiting 
-setInterval(ScrapeEveryYamlInConfig, 100000);
+// setInterval(ScrapeEveryYamlInConfig,100000)
 //# sourceMappingURL=index.js.map

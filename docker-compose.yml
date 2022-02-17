@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  web:
+    build: ./back-end
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "torProxy"
+      - "db"
+  torProxy:
+    image: "dperson/torproxy"
+    ports:
+      - "8118:8118"
+      - "9050:9050"
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: avivp9Aviv
+
+  client:
+    container_name: client-container
+    restart: always
+    build: ./front-end
+    ports:
+      - "3000:3000"
+    depends_on:
+      - web
+
+
+

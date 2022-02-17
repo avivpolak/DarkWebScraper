@@ -1,4 +1,0 @@
-proxy:
-  port: 8118
-  host: localhost
-db: postgresql

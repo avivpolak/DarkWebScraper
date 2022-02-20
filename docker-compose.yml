@@ -16,7 +16,7 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: avivp9Aviv
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   client:
     container_name: client-container

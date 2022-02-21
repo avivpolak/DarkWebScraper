@@ -34,7 +34,8 @@ Architecture:
 - google as env:GOOGLE_APPLICATION_CREDENTIALAS =C:\dev\...your path to env file
 
 
-3. ```bash
+3. 
+```bash
 docker compose up
 ```
 

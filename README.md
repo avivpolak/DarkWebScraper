@@ -22,9 +22,7 @@ Architecture:
 
 ![defenition](./pictures/architecture.png)
 
-## back-end 
-## Usage
-clone this repo
+
 
 ## Installation
 

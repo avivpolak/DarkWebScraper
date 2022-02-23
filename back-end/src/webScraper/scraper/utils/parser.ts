@@ -4,27 +4,32 @@ import { extractDataFromText } from "./regex";
 import { Pastes, Paste } from "../../../types/pastes";
 import { Params } from "../../../types/config";
 import { HTMLElement } from "node-html-parser";
-
+import { ServerError } from "../../../errors/types";
 
 export const parseHtmlToObject = (
     html: string,
     config: Config
 ): Pastes | undefined => {
-    const parseResult = parse(html);
-    if (parseResult) {
-        const posts = parseResult.querySelectorAll(config.allPosts.selector);
-        
-        const analyzedPosts = getPastesList(posts, config.params);
-        if (analyzedPosts.length > 0) {
-            return analyzedPosts;
+    try {
+        const parseResult = parse(html);
+        if (parseResult) {
+            const posts = parseResult.querySelectorAll(
+                config.allPosts.selector
+            );
+
+            const analyzedPosts = getPastesList(posts, config.params);
+            if (analyzedPosts.length > 0) {
+                return analyzedPosts;
+            } else {
+                return undefined;
+            }
         } else {
             return undefined;
         }
-    } else {
-        return undefined;
+    } catch (error) {
+        throw error;
     }
 };
-
 
 const getPastesList = (pasPastes: HTMLElement[], params: Params): Pastes => {
     const analyzedPastes: Pastes = [];
@@ -63,11 +68,7 @@ const getPasteFromHtml = (
             }
         }
         return analyzedPaste;
-    } catch (error: unknown) {
-        console.log(error)
-        if (typeof error === "string") {
-     
-            throw new Error(error);
-        }
+    } catch (error) {
+        throw error;
     }
 };

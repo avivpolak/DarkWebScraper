@@ -8,10 +8,9 @@ const extractDataFromText = (text, regex) => {
         const match = text.match(regex);
         return (match && match.length > 0 && match[0]) ? match[0].trim() : text;
     }
-    catch (error) {
-        if (typeof error === "string") {
-            throw new Error(error);
-        }
+    catch {
+        const err = { message: "regex error", code: "SERVER_ERROR" };
+        throw err;
     }
 };
 exports.extractDataFromText = extractDataFromText;

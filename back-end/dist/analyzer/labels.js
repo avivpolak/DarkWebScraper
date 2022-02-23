@@ -29,7 +29,8 @@ const getLabelsFromText = async (text) => {
         }
     }
     catch (error) {
-        return undefined;
+        const err = { message: "google cloud error", code: "SERVER_ERROR" };
+        throw err;
     }
 };
 exports.getLabelsFromText = getLabelsFromText;

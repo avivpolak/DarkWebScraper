@@ -1,26 +1,26 @@
-import { Request, Response } from "express";
-import {
-    getAllPastesFromDb,
-    getPastesByQueryFromDb,
-    deleteAllPastesFromDb,
-    getLabelsStatisticsFromDb,
-} from "../../prisma/utils/paste/actions";
+import { ServerError } from "../../errors/types";
 import { custumScrape } from "../../webScraper/scraper/scraper";
 import { convertToStandartConfig } from "../helpers/utils";
 
-export const getCustumScrape = async (req: Request, res: Response) => {
+export const getCustumScrape = async (req: any, res: any) => {
     try {
-        const config = convertToStandartConfig(req.body)
-
+        const rowConfig: any = {};
+        for (let [key, value] of Object.entries(req.body)) {
+            if (!key.includes("REGEX")) {
+                rowConfig[req.sanitize(key)] = req.sanitize(value);
+            } else {
+                rowConfig[req.sanitize(key)] = value;
+            }
+        }
+        const config = convertToStandartConfig(rowConfig);
         const allPastes = await custumScrape(config);
 
-        if (allPastes&& allPastes.length>0) {
-            return res.status(200).json({data:allPastes});
+        if (allPastes && allPastes.length > 0) {
+            return res.status(200).json({ data: allPastes });
         } else {
-            console.log(allPastes)
-            return res.status(404).send("No posts found");
+            return res.status(204).send("No posts found");
         }
-    } catch (error) {
+    } catch (error: any) {
         console.log(error);
         res.status(500).send("Internal server Error");
     }

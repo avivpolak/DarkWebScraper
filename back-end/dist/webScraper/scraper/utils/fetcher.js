@@ -10,11 +10,13 @@ const configReader_1 = require("../../shared/configReader");
 const isURL_1 = __importDefault(require("validator/lib/isURL"));
 const fetchData = async (url, useTor) => {
     try {
-        let response = {};
+        let response;
         const generalConfig = await (0, configReader_1.readConfig)("../../../configs/general.yaml");
         if ((0, typeGourds_1.isGeneralConfig)(generalConfig) && (0, isURL_1.default)(url)) {
             if (useTor) {
-                response = await axios_1.default.get(url, { proxy: generalConfig.proxy });
+                const response = await axios_1.default.get(url, {
+                    proxy: generalConfig.proxy,
+                });
                 return response.data;
             }
             else {
@@ -22,12 +24,20 @@ const fetchData = async (url, useTor) => {
                 return response.data;
             }
         }
-        return undefined;
+        const Erorr_Server_Fetch_NoData = {
+            message: "no data found",
+            code: "SERVER_ERROR",
+            subCode: "fetch error",
+        };
+        throw Erorr_Server_Fetch_NoData;
     }
     catch (error) {
-        if (typeof error === "string") {
-            throw new Error(error);
-        }
+        const Erorr_Server_Fetch = {
+            message: error.message,
+            code: "SERVER_ERROR",
+            subCode: "fetch error",
+        };
+        throw Erorr_Server_Fetch;
     }
 };
 exports.fetchData = fetchData;

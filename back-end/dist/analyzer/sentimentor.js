@@ -23,7 +23,8 @@ const getSentimentFromText = async (text) => {
         return undefined;
     }
     catch (error) {
-        return undefined;
+        const err = { message: "google cloud error", code: "SERVER_ERROR" };
+        throw err;
     }
 };
 exports.getSentimentFromText = getSentimentFromText;

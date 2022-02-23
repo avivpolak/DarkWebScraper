@@ -40,10 +40,8 @@ const readConfig = async (configPath) => {
         return undefined;
     }
     catch (error) {
-        console.log(error);
-        if ((0, typeGourds_1.isString)(error)) {
-            throw new Error(error);
-        }
+        const err = { message: error, code: "SERVER_ERROR" };
+        throw err;
     }
 };
 exports.readConfig = readConfig;
@@ -59,10 +57,8 @@ const writeConfig = async (config, pathStr) => {
         });
     }
     catch (error) {
-        console.log(error);
-        if ((0, typeGourds_1.isString)(error)) {
-            throw new Error(error);
-        }
+        const err = { message: error, code: "SERVER_ERROR" };
+        throw err;
     }
 };
 exports.writeConfig = writeConfig;

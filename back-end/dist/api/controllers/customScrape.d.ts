@@ -1,2 +1,1 @@
-import { Request, Response } from "express";
-export declare const getCustumScrape: (req: Request, res: Response) => Promise<Response | undefined>;
+export declare const getCustumScrape: (req: any, res: any) => Promise<any>;

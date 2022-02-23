@@ -6,14 +6,11 @@ import { parseHtmlToObject } from "./parser";
 export const pageScraper = async (config: Config) => {
     try {
         const html: unknown = await fetchData(config.url, config.useTor);
-  
         if (isString(html)) {
             const parsedHtml = await parseHtmlToObject(html, config);
-     
             return parsedHtml;
         }
-
     } catch (error) {
-        console.log(error)
+        throw error;
     }
 };

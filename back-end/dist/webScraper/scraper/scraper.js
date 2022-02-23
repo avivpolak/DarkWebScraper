@@ -22,7 +22,7 @@ const scrape = async (config) => {
         console.log(`Finish scraping ${config.name}`);
     }
     catch (error) {
-        console.log(error);
+        throw error;
     }
 };
 const custumScrape = async (config) => {
@@ -44,7 +44,7 @@ const custumScrape = async (config) => {
         console.log("finished");
     }
     catch (error) {
-        console.log(error);
+        throw error;
     }
 };
 exports.custumScrape = custumScrape;

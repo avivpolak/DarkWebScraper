@@ -13,7 +13,7 @@ const pageScraper = async (config) => {
         }
     }
     catch (error) {
-        console.log(error);
+        throw error;
     }
 };
 exports.pageScraper = pageScraper;

@@ -9,7 +9,7 @@ USER node
 RUN npm install
 COPY --chown=node:node . .
 RUN cd src && npx prisma migrate dev --name init
-RUN npm run scrap
+# RUN npm run scrap
 
 
 EXPOSE 3000

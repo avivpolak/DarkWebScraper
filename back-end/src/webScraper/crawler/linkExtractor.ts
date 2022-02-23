@@ -8,30 +8,37 @@ import { readCash, writeCash } from "../shared/cash";
 // import isUrl from "validator/lib/isUrl";
 import { bar } from "../shared/progressBar";
 
+
 const progressBar = bar("Collecting urls:              ");
 const getFullUrlList = async (
     config: Config
 ): Promise<string[] | undefined> => {
-    const urlsFromCash = await readCash(config.name);
-    if (
-        urlsFromCash &&
-        urlsFromCash.data.length >= config.maxUrls &&
-        config.url === urlsFromCash.config.url
-    ) {
-        console.log("Got the URLs from cashe.");
-        return urlsFromCash.data.slice(0, config.maxUrls);
-    } else {
-        const urlList: string[] | undefined = await getUrlListFromUrl(config);
-        if (urlList) {
-            const overalPageUrls = await searchForUrlsFromAGivenUrlList(
-                urlList,
+    try {
+        const urlsFromCash = await readCash(config.name);
+        if (
+            urlsFromCash &&
+            urlsFromCash.data.length >= config.maxUrls &&
+            config.url === urlsFromCash.config.url
+        ) {
+            console.log("Got the URLs from cashe.");
+            return urlsFromCash.data.slice(0, config.maxUrls);
+        } else {
+            const urlList: string[] | undefined = await getUrlListFromUrl(
                 config
             );
-            writeCash(overalPageUrls, config);
-            console.log("Wrote the URLs to cache.");
-            return overalPageUrls;
+            if (urlList) {
+                const overalPageUrls = await searchForUrlsFromAGivenUrlList(
+                    urlList,
+                    config
+                );
+                writeCash(overalPageUrls, config);
+                console.log("Wrote the URLs to cache.");
+                return overalPageUrls;
+            }
+            return undefined;
         }
-        return undefined;
+    } catch (error) {
+        throw error;
     }
 };
 
@@ -39,31 +46,35 @@ const searchForUrlsFromAGivenUrlList = async (
     urlList: string[],
     config: Config
 ): Promise<string[]> => {
-    const overalPageUrls = urlList;
-    overalPageUrls.push(config.url);
-    let continueFlag = true;
-    progressBar.start(config.maxUrls, 0);
-    while (continueFlag && overalPageUrls.length <= config.maxUrls) {
-        for (const url of urlList) {
-            const newConfig = { ...config, url };
-            const urls2level = await getUrlListFromUrl(newConfig);
-            if (urls2level) {
-                for (const url2level of urls2level) {
-                    if (!overalPageUrls.includes(url2level)) {
-                        progressBar.update(overalPageUrls.length);
-                        overalPageUrls.push(url2level);
-                        if (overalPageUrls.length >= config.maxUrls) {
-                            continueFlag = false;
+    try {
+        const overalPageUrls = urlList;
+        overalPageUrls.push(config.url);
+        let continueFlag = true;
+        progressBar.start(config.maxUrls, 0);
+        while (continueFlag && overalPageUrls.length <= config.maxUrls) {
+            for (const url of urlList) {
+                const newConfig = { ...config, url };
+                const urls2level = await getUrlListFromUrl(newConfig);
+                if (urls2level) {
+                    for (const url2level of urls2level) {
+                        if (!overalPageUrls.includes(url2level)) {
+                            progressBar.update(overalPageUrls.length);
+                            overalPageUrls.push(url2level);
+                            if (overalPageUrls.length >= config.maxUrls) {
+                                continueFlag = false;
+                            }
                         }
+                        if (!continueFlag) break;
                     }
-                    if (!continueFlag) break;
                 }
+                if (!continueFlag) break;
             }
-            if (!continueFlag) break;
         }
+        progressBar.stop();
+        return overalPageUrls;
+    } catch (error) {
+        throw error;
     }
-    progressBar.stop();
-    return overalPageUrls;
 };
 const getUrlListFromUrl = async (
     config: Config
@@ -79,29 +90,33 @@ const getUrlListFromUrl = async (
         }
         return undefined;
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 };
 
 const getPagesLinkes = async (parseResult: HTMLElement, config: Config) => {
-    const aElements = await parseResult.querySelectorAll("a");
-    const links = aElements
-        .map((aElement) => {
-            return aElement.rawAttributes.href;
-        })
-        .filter((link) => {
-            if (isString(link)) {
-                return (
-                    extractDataFromText(link, /(?<=\/\/)(.*\n?)(?=\.)/) ===
+    try {
+        const aElements = await parseResult.querySelectorAll("a");
+        const links = aElements
+            .map((aElement) => {
+                return aElement.rawAttributes.href;
+            })
+            .filter((link) => {
+                if (isString(link)) {
+                    return (
+                        extractDataFromText(link, /(?<=\/\/)(.*\n?)(?=\.)/) ===
                         extractDataFromText(
                             config.url,
                             /(?<=\/\/)(.*\n?)(?=\.)/
-                        ) 
+                        )
                         // && isUrl(link)
-                );
-            }
-        });
-    return links;
+                    );
+                }
+            });
+        return links;
+    } catch (error) {
+        throw error;
+    }
 };
 
 export default getFullUrlList;

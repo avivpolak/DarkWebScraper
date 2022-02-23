@@ -5,7 +5,12 @@ const client_1 = require("@prisma/client");
 const typeGourds_1 = require("../../../types/typeGourds");
 const prisma = new client_1.PrismaClient();
 const isValidAndNew = async (data) => {
-    return isValidData(data) && !(await isExsistsInDb(data)) ? true : false;
+    try {
+        return isValidData(data) && !(await isExsistsInDb(data)) ? true : false;
+    }
+    catch (error) {
+        throw error;
+    }
 };
 exports.isValidAndNew = isValidAndNew;
 const isValidData = (data) => {
@@ -17,13 +22,22 @@ const isValidData = (data) => {
         return false;
 };
 const isExsistsInDb = async (data) => {
-    if (isValidData(data) && typeof data.content === "string") {
-        const paste = await prisma.paste.findFirst({
-            where: {
-                content: data.content,
-            },
-        });
-        return paste ? true : false;
+    try {
+        if (isValidData(data) && typeof data.content === "string") {
+            const paste = await prisma.paste.findFirst({
+                where: {
+                    content: data.content,
+                },
+            });
+            return paste ? true : false;
+        }
+    }
+    catch (error) {
+        const err = {
+            message: "db find error",
+            code: "SERVER_ERROR",
+        };
+        throw err;
     }
 };
 //# sourceMappingURL=validate.js.map

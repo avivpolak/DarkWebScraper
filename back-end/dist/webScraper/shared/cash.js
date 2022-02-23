@@ -7,16 +7,25 @@ exports.readCash = exports.writeCash = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const writeCash = async (data, config) => {
-    const dataToSave = { data, config };
-    const cashPath = path_1.default.join(__dirname, `../../../cache`);
-    if (!fs_1.default.existsSync(cashPath)) {
-        fs_1.default.mkdirSync(cashPath);
-    }
-    fs_1.default.writeFile(cashPath + `/${config.name}.json`, JSON.stringify(dataToSave), (err) => {
-        if (err) {
-            console.log(err);
+    try {
+        const dataToSave = { data, config };
+        const cashPath = path_1.default.join(__dirname, `../../../cache`);
+        if (!fs_1.default.existsSync(cashPath)) {
+            fs_1.default.mkdirSync(cashPath);
         }
-    });
+        fs_1.default.writeFile(cashPath + `/${config.name}.json`, JSON.stringify(dataToSave), (err) => {
+            if (err) {
+                console.log(err);
+            }
+        });
+    }
+    catch (error) {
+        const err = {
+            message: "write to cash error",
+            code: "SERVER_ERROR",
+        };
+        throw err;
+    }
 };
 exports.writeCash = writeCash;
 const readCash = async (configName) => {
@@ -26,7 +35,11 @@ const readCash = async (configName) => {
             .toString());
     }
     catch (error) {
-        return undefined;
+        const err = {
+            message: "read from cash error",
+            code: "SERVER_ERROR",
+        };
+        throw err;
     }
 };
 exports.readCash = readCash;

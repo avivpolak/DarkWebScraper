@@ -12,52 +12,62 @@ const cash_1 = require("../shared/cash");
 const progressBar_1 = require("../shared/progressBar");
 const progressBar = (0, progressBar_1.bar)("Collecting urls:              ");
 const getFullUrlList = async (config) => {
-    const urlsFromCash = await (0, cash_1.readCash)(config.name);
-    if (urlsFromCash &&
-        urlsFromCash.data.length >= config.maxUrls &&
-        config.url === urlsFromCash.config.url) {
-        console.log("Got the URLs from cashe.");
-        return urlsFromCash.data.slice(0, config.maxUrls);
-    }
-    else {
-        const urlList = await getUrlListFromUrl(config);
-        if (urlList) {
-            const overalPageUrls = await searchForUrlsFromAGivenUrlList(urlList, config);
-            (0, cash_1.writeCash)(overalPageUrls, config);
-            console.log("Wrote the URLs to cache.");
-            return overalPageUrls;
+    try {
+        const urlsFromCash = await (0, cash_1.readCash)(config.name);
+        if (urlsFromCash &&
+            urlsFromCash.data.length >= config.maxUrls &&
+            config.url === urlsFromCash.config.url) {
+            console.log("Got the URLs from cashe.");
+            return urlsFromCash.data.slice(0, config.maxUrls);
         }
-        return undefined;
+        else {
+            const urlList = await getUrlListFromUrl(config);
+            if (urlList) {
+                const overalPageUrls = await searchForUrlsFromAGivenUrlList(urlList, config);
+                (0, cash_1.writeCash)(overalPageUrls, config);
+                console.log("Wrote the URLs to cache.");
+                return overalPageUrls;
+            }
+            return undefined;
+        }
+    }
+    catch (error) {
+        throw error;
     }
 };
 const searchForUrlsFromAGivenUrlList = async (urlList, config) => {
-    const overalPageUrls = urlList;
-    overalPageUrls.push(config.url);
-    let continueFlag = true;
-    progressBar.start(config.maxUrls, 0);
-    while (continueFlag && overalPageUrls.length <= config.maxUrls) {
-        for (const url of urlList) {
-            const newConfig = { ...config, url };
-            const urls2level = await getUrlListFromUrl(newConfig);
-            if (urls2level) {
-                for (const url2level of urls2level) {
-                    if (!overalPageUrls.includes(url2level)) {
-                        progressBar.update(overalPageUrls.length);
-                        overalPageUrls.push(url2level);
-                        if (overalPageUrls.length >= config.maxUrls) {
-                            continueFlag = false;
+    try {
+        const overalPageUrls = urlList;
+        overalPageUrls.push(config.url);
+        let continueFlag = true;
+        progressBar.start(config.maxUrls, 0);
+        while (continueFlag && overalPageUrls.length <= config.maxUrls) {
+            for (const url of urlList) {
+                const newConfig = { ...config, url };
+                const urls2level = await getUrlListFromUrl(newConfig);
+                if (urls2level) {
+                    for (const url2level of urls2level) {
+                        if (!overalPageUrls.includes(url2level)) {
+                            progressBar.update(overalPageUrls.length);
+                            overalPageUrls.push(url2level);
+                            if (overalPageUrls.length >= config.maxUrls) {
+                                continueFlag = false;
+                            }
                         }
+                        if (!continueFlag)
+                            break;
                     }
-                    if (!continueFlag)
-                        break;
                 }
+                if (!continueFlag)
+                    break;
             }
-            if (!continueFlag)
-                break;
         }
+        progressBar.stop();
+        return overalPageUrls;
     }
-    progressBar.stop();
-    return overalPageUrls;
+    catch (error) {
+        throw error;
+    }
 };
 const getUrlListFromUrl = async (config) => {
     try {
@@ -72,24 +82,29 @@ const getUrlListFromUrl = async (config) => {
         return undefined;
     }
     catch (error) {
-        console.log(error);
+        throw error;
     }
 };
 const getPagesLinkes = async (parseResult, config) => {
-    const aElements = await parseResult.querySelectorAll("a");
-    const links = aElements
-        .map((aElement) => {
-        return aElement.rawAttributes.href;
-    })
-        .filter((link) => {
-        if ((0, typeGourds_1.isString)(link)) {
-            return ((0, regex_1.extractDataFromText)(link, /(?<=\/\/)(.*\n?)(?=\.)/) ===
-                (0, regex_1.extractDataFromText)(config.url, /(?<=\/\/)(.*\n?)(?=\.)/)
-            // && isUrl(link)
-            );
-        }
-    });
-    return links;
+    try {
+        const aElements = await parseResult.querySelectorAll("a");
+        const links = aElements
+            .map((aElement) => {
+            return aElement.rawAttributes.href;
+        })
+            .filter((link) => {
+            if ((0, typeGourds_1.isString)(link)) {
+                return ((0, regex_1.extractDataFromText)(link, /(?<=\/\/)(.*\n?)(?=\.)/) ===
+                    (0, regex_1.extractDataFromText)(config.url, /(?<=\/\/)(.*\n?)(?=\.)/)
+                // && isUrl(link)
+                );
+            }
+        });
+        return links;
+    }
+    catch (error) {
+        throw error;
+    }
 };
 exports.default = getFullUrlList;
 //# sourceMappingURL=linkExtractor.js.map

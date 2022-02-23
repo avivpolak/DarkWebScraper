@@ -4,6 +4,7 @@ import path from "path";
 import { Config, ConfigREGEXAsString } from "../../types/config";
 import { isConfig, isGeneralConfig, isString } from "../../types/typeGourds";
 import { GeneralConfig } from "../../types/generalConfig";
+import { ServerError } from "../../errors/types";
 
 export const readConfig = async (
     configPath: string
@@ -19,11 +20,9 @@ export const readConfig = async (
             return config;
         }
         return undefined;
-    } catch (error: unknown) {
-        console.log(error);
-        if (isString(error)) {
-            throw new Error(error);
-        }
+    } catch (error: any) {
+        const err: ServerError = { message: error, code: "SERVER_ERROR" };
+        throw err;
     }
 };
 
@@ -44,11 +43,9 @@ export const writeConfig = async (
                 console.log(err);
             }
         });
-    } catch (error: unknown) {
-        console.log(error);
-        if (isString(error)) {
-            throw new Error(error);
-        }
+    } catch (error: any) {
+        const err: ServerError = { message: error, code: "SERVER_ERROR" };
+        throw err;
     }
 };
 const makeItRegex = (config: Config) => {

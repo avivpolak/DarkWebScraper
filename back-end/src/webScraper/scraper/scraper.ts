@@ -1,4 +1,5 @@
 import { Config } from "../../types/config";
+import { ServerError } from "../../errors/types";
 import { isPastes, isString } from "../../types/typeGourds";
 import getFullUrlList from "../crawler/linkExtractor";
 import { saveAll } from "../shared/db";
@@ -28,14 +29,14 @@ const scrape = async (config: Config) => {
         }
         console.log(`Finish scraping ${config.name}`);
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 };
 
 export const custumScrape = async (config: Config) => {
     try {
         const fullUrlList = await getFullUrlList(config);
-   
+
         if (fullUrlList) {
             const pastes = await doInParalel(
                 fullUrlList,
@@ -44,7 +45,6 @@ export const custumScrape = async (config: Config) => {
                 "extracting data from pages...",
                 config
             );
-  
 
             let nonDuplicatedPastes: any = [];
             for (let urlPastes of pastes) {
@@ -62,7 +62,7 @@ export const custumScrape = async (config: Config) => {
         }
         console.log("finished");
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 };
 

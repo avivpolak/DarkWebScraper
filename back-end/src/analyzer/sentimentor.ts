@@ -1,4 +1,5 @@
 import language from "@google-cloud/language";
+import { ServerError } from "../errors/types";
 import { Plain } from "../types/google";
 const client = new language.LanguageServiceClient();
 
@@ -19,7 +20,8 @@ export const getSentimentFromText = async (
             }
         }
         return undefined;
-    } catch (error) {
-        return undefined;
+    } catch (error: any) {
+        const err: ServerError = { message: "google cloud error", code: "SERVER_ERROR" };
+        throw err;
     }
 };

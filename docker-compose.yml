@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   web:
+    container_name: web
     build: ./back-end
     ports:
       - "8080:8080"
@@ -8,11 +9,13 @@ services:
       - "torProxy"
       - "db"
   torProxy:
+    container_name: torProxy
     image: "dperson/torproxy"
     ports:
       - "8118:8118"
       - "9050:9050"
   db:
+    container_name: db
     image: postgres
     restart: always
     environment:

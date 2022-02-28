@@ -21,13 +21,14 @@ import Header from "./Header";
 import SearchBar from "./SearchBar";
 import ReactPaginate from "react-paginate";
 import { config } from "../axois";
+import { DebounceInput } from "react-debounce-input";
 
 const LiveData = () => {
     const [searchWord, setSearchWord] = useState("");
     const [pageNumber, setPageNumber] = useState(3);
     const [pasetsPerPage, setPasetsPerPage] = useState(10);
     const store = useStore().getState();
-    const [data, setData] = useState(store.pasteReducer);
+    const [data, setData] = useState([]);
     const [count, setCount] = useState(0);
 
     const getCount = async () => {
@@ -36,24 +37,30 @@ const LiveData = () => {
                 `http://localhost:8080/countAll`,
                 config
             );
+
             setCount(response.data);
         } catch (err) {}
     };
 
-    const updateData = async () => {
+    const updateData = async (searchWord:string) => {
         try {
+            console.log(`updateData`);
             await getCount();
-            const response = await axios.get(`http://localhost:8080/?page=${pageNumber}&pasetsPerPage=${pasetsPerPage}`, config);
+            const response = await axios.get(
+                `http://localhost:8080/?page=${pageNumber}&pasetsPerPage=${pasetsPerPage}&searchWord=${searchWord}`,
+                config
+            );
             if (response.data.length > 0) {
-                console.log(response.data);
                 setData(response.data);
+            } else {
+                setData([]);
             }
         } catch (err) {}
     };
 
-    useInterval(updateData, 10000);
+    useInterval(()=>{updateData(searchWord)}, 10000);
     useEffect(() => {
-        updateData();
+        updateData(searchWord);
     }, [pageNumber]);
 
     const handlePageClick = ({ selected }: any) => {
@@ -63,8 +70,39 @@ const LiveData = () => {
     return (
         <>
             <Header />
-            <SearchBar setSearchWord={setSearchWord} />
+            <DebounceInput
+
+                debounceTimeout={300}
+                onChange={(event) => {
+                    setSearchWord(event.target.value);
+                    // console.log(searchWord)
+                    updateData(event.target.value);
+                }}
+            />
+
             <Container fluid>
+                <Row>
+                    <Col md="12">
+                        <ReactPaginate
+                            onPageChange={handlePageClick}
+                            breakLabel="..."
+                            nextLabel="next >"
+                            pageRangeDisplayed={5}
+                            pageCount={count / pasetsPerPage}
+                            previousLabel="< previous"
+                            breakClassName={"page-item"}
+                            breakLinkClassName={"page-link"}
+                            containerClassName={"pagination"}
+                            pageClassName={"page-item"}
+                            pageLinkClassName={"page-link"}
+                            previousClassName={"page-item"}
+                            previousLinkClassName={"page-link"}
+                            nextClassName={"page-item"}
+                            nextLinkClassName={"page-link"}
+                            activeClassName={"active"}
+                        />
+                    </Col>
+                </Row>
                 <Row>
                     <Col md="12">
                         <Card className="strpied-tabled-with-hover">
@@ -97,28 +135,6 @@ const LiveData = () => {
                                 </Table>
                             </Card.Body>
                         </Card>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md="12">
-                        <ReactPaginate
-                            onPageChange={handlePageClick}
-                            breakLabel="..."
-                            nextLabel="next >"
-                            pageRangeDisplayed={5}
-                            pageCount={count / pasetsPerPage}
-                            previousLabel="< previous"
-                            breakClassName={"page-item"}
-                            breakLinkClassName={"page-link"}
-                            containerClassName={"pagination"}
-                            pageClassName={"page-item"}
-                            pageLinkClassName={"page-link"}
-                            previousClassName={"page-item"}
-                            previousLinkClassName={"page-link"}
-                            nextClassName={"page-item"}
-                            nextLinkClassName={"page-link"}
-                            activeClassName={"active"}
-                        />
                     </Col>
                 </Row>
             </Container>

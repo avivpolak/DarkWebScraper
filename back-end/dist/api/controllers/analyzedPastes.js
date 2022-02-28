@@ -6,9 +6,16 @@ const getPagesPastes = async (req, res) => {
     try {
         const page = Number(req.sanitize(req.query.page)) || 0;
         const pasetsPerPage = Number(req.sanitize(req.query.pasetsPerPage)) || 10;
+        const searchWord = req.sanitize(req.query.searchWord);
         if (pasetsPerPage > 200)
             return res.status(403).send('"Pasets per page" is too large'); //against data thieth
-        const pagesPastes = await (0, actions_1.getPagesPastesFromDb)(page, pasetsPerPage);
+        let pagesPastes;
+        if (searchWord) {
+            pagesPastes = await (0, actions_1.getPagesPastesFromDbWithSearchWord)(page, pasetsPerPage, searchWord);
+        }
+        else {
+            pagesPastes = await (0, actions_1.getPagesPastesFromDb)(page, pasetsPerPage);
+        }
         if (pagesPastes) {
             return res.status(200).json(pagesPastes);
         }
@@ -47,7 +54,6 @@ exports.getCount = getCount;
 const getLabelsStatistics = async (req, res) => {
     try {
         const statistics = await (0, actions_1.getLabelsStatisticsFromDb)();
-        console.log(statistics);
         if (statistics) {
             return res.status(200).json({ data: statistics });
         }

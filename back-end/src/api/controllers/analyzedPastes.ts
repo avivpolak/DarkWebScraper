@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import {
-    getPagesPastesFromDb,
+    getPagesPastesFromDbWithSearchWord,
     getPastesByQueryFromDb,
     deleteAllPastesFromDb,
     getLabelsStatisticsFromDb,
+    getPagesPastesFromDb,
     countAllItems,
 } from "../../prisma/utils/paste/actions";
 import { ServerError } from "../../errors/types";
@@ -13,9 +14,21 @@ export const getPagesPastes = async (req: any, res: any) => {
         const page: number = Number(req.sanitize(req.query.page)) || 0;
         const pasetsPerPage: number =
             Number(req.sanitize(req.query.pasetsPerPage)) || 10;
+        const searchWord = req.sanitize(req.query.searchWord);
         if (pasetsPerPage > 200)
             return res.status(403).send('"Pasets per page" is too large'); //against data thieth
-        const pagesPastes = await getPagesPastesFromDb(page, pasetsPerPage);
+        let pagesPastes;
+
+        if (searchWord) {
+            pagesPastes = await getPagesPastesFromDbWithSearchWord(
+                page,
+                pasetsPerPage,
+                searchWord
+            );
+        } else {
+            pagesPastes = await getPagesPastesFromDb(page, pasetsPerPage);
+        }
+
         if (pagesPastes) {
             return res.status(200).json(pagesPastes);
         } else {
@@ -49,7 +62,6 @@ export const getCount = async (req: Request, res: Response) => {
 export const getLabelsStatistics = async (req: Request, res: Response) => {
     try {
         const statistics = await getLabelsStatisticsFromDb();
-        console.log(statistics)
         if (statistics) {
             return res.status(200).json({ data: statistics });
         } else {

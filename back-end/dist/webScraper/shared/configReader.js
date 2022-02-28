@@ -51,7 +51,6 @@ const writeConfig = async (config, pathStr) => {
     try {
         const yamlConfig = await yaml_1.default.stringify(stringifyRegex(config));
         const overallPath = path_1.default.join(__dirname, pathStr, `/${config.name}-custom.yaml`);
-        console.log(overallPath);
         fs.writeFile(overallPath, yamlConfig, (err) => {
             if (err) {
                 console.log(err);

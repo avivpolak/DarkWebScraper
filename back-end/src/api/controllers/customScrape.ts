@@ -14,7 +14,6 @@ export const getCustumScrape = async (req: any, res: any) => {
         }
         const config = convertToStandartConfig(rowConfig);
         const allPastes = await custumScrape(config);
-console.log(allPastes)
         if (allPastes && allPastes.length > 0) {
             return res.status(200).json({ data: allPastes });
         } else {

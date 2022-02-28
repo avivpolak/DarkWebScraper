@@ -45,7 +45,6 @@ export const alertsSlice = createSlice({
     reducers: {
         addAlert: (state, action) => {
             const newAlert: Alert = action.payload;
-            console.log(newAlert)
             if (isAlert(newAlert) && !isInAlerts(state,newAlert.paste.title)) {
                 state.push(newAlert);
                 notyf.error(`new alert!!!`);
@@ -54,7 +53,6 @@ export const alertsSlice = createSlice({
         remove: (state, action) => {
             const newTitleToRemove = action.payload;
             if (typeof newTitleToRemove === "string") {
-                console.log(newTitleToRemove)
                 state = state.filter((alert) => {
                     return alert.paste.title !== newTitleToRemove;
                 });

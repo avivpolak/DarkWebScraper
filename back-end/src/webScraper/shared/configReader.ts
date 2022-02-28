@@ -38,7 +38,6 @@ export const writeConfig = async (
             pathStr,
             `/${config.name}-custom.yaml`
         );
-        console.log(overallPath);
         fs.writeFile(overallPath, yamlConfig, (err) => {
             if (err) {
                 console.log(err);

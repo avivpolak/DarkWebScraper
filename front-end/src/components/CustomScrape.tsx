@@ -56,7 +56,6 @@ const CustomScrape = () => {
                 config
             );
             setIsLoading(false);
-            console.log(response.data.data)
             if (response.data.data.length > 0) {
                 setData(response.data.data);
             } else {

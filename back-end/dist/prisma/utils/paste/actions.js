@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPastesByQueryFromDb = exports.getLabelsStatisticsFromDb = exports.getPagesPastesFromDb = exports.countAllItems = exports.deleteAllPastesFromDb = exports.saveToDb = void 0;
+exports.getPastesByQueryFromDb = exports.getLabelsStatisticsFromDb = exports.getPagesPastesFromDb = exports.getPagesPastesFromDbWithSearchWord = exports.countAllItems = exports.deleteAllPastesFromDb = exports.saveToDb = void 0;
 const client_1 = require("@prisma/client");
 const helpers_1 = require("./utils/helpers");
 const prisma = new client_1.PrismaClient();
@@ -46,6 +46,55 @@ const countAllItems = async () => {
     }
 };
 exports.countAllItems = countAllItems;
+const getPagesPastesFromDbWithSearchWord = async (page, pasetsPerPage, searchWord) => {
+    try {
+        console.log("searchWordsearchWord", searchWord);
+        const result = await prisma.paste.findMany({
+            skip: page * pasetsPerPage,
+            take: pasetsPerPage,
+            select: {
+                title: true,
+                author: true,
+                labels: true,
+                date: true,
+            },
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: searchWord,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        content: {
+                            contains: searchWord,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        labels: {
+                            has: searchWord,
+                        },
+                    },
+                ],
+            },
+            orderBy: {
+                date: "desc",
+            },
+        });
+        console.log(result);
+        return result;
+    }
+    catch (error) {
+        const err = {
+            message: "db find error",
+            code: "SERVER_ERROR",
+        };
+        throw err;
+    }
+};
+exports.getPagesPastesFromDbWithSearchWord = getPagesPastesFromDbWithSearchWord;
 const getPagesPastesFromDb = async (page, pasetsPerPage) => {
     try {
         return await prisma.paste.findMany({
@@ -135,14 +184,14 @@ const getPastesByQueryFromDb = async (query) => {
                     },
                 ],
             },
+            orderBy: {
+                date: "desc",
+            },
             select: {
                 title: true,
                 author: true,
                 labels: true,
                 date: true,
-            },
-            orderBy: {
-                date: "desc",
             },
         });
     }

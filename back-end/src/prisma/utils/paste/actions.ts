@@ -50,13 +50,13 @@ export const getLabelsStatisticsFromDb = async () => {
             },
         },
     });
-    const labels = groups.map((item) => item.labels.join(","));
+    const labels = groups.map((item:any) => item.labels.join(","));
     const sum = groups
-        .map((group) => group._count.id)
-        .reduce((a, b) => a + b, 0);
-    const series = groups.map((item) => (item._count.id / sum) * 100);
+        .map((group:any) => group._count.id)
+        .reduce((a:any, b:any) => a + b, 0);
+    const series = groups.map((item:any) => (item._count.id / sum) * 100);
 
-    const itemToSend = labels.map((label, index) => {
+    const itemToSend = labels.map((label:any, index:any) => {
         return { title: label, color: getRandomColor(), value: series[index] };
     });
     return itemToSend;

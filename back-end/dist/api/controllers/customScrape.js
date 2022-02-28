@@ -11,6 +11,7 @@ const getCustumScrape = async (req, res) => {
             return res.status(200).json({ data: allPastes });
         }
         else {
+            console.log(allPastes);
             return res.status(404).send("No posts found");
         }
     }

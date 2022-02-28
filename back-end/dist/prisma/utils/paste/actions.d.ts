@@ -8,7 +8,7 @@ export declare const getAllPastesFromDb: () => Promise<{
     author: string | null;
 }[]>;
 export declare const getLabelsStatisticsFromDb: () => Promise<{
-    title: string;
+    title: any;
     color: string;
     value: number;
 }[]>;

@@ -1,4 +1,4 @@
 proxy:
   port: 8118
-  host: torProxy
+  host: localhost
 db: postgresql

@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 const jsonParser = bodyParser.json();
 import express from "express";
 import cors from "cors"
+const expressSanitizer = require('express-sanitizer');
+
 
 
 const port = 8080;
@@ -10,7 +12,7 @@ const port = 8080;
 const app = express();
 
 app.use(cors());
-
+app.use(expressSanitizer());
 
 //routes
 import analyzedPastesRouter from "./routes/analyzedPastes";

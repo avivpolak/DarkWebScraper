@@ -10,6 +10,7 @@ export const fetchData = async (url: string, useTor: boolean): Promise<any> => {
         if (isGeneralConfig(generalConfig) && isURL(url)) {
             if (useTor) {
                 response = await axios.get(url, { proxy: generalConfig.proxy });
+                console.log(response.data);
                 return response.data;
             } else {
                 response = await axios.get(url);

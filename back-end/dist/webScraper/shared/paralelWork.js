@@ -41,7 +41,9 @@ const doInParalel = async (data, callBack, typeGourd, verbToMonitor, config) => 
             }
         }
     }
-    return [await Promise.all(promisesList), progressBar];
+    const results = await Promise.all(promisesList);
+    progressBar.stop();
+    return results;
 };
 exports.doInParalel = doInParalel;
 //# sourceMappingURL=paralelWork.js.map

@@ -10,21 +10,21 @@ const scrape = async (config: Config) => {
         console.log(`Started scraping "${config.name}"`);
         const fullUrlList = await getFullUrlList(config);
         if (fullUrlList) {
-            const [pastes, pastesProgressBar] = await doInParalel(
+            const pastes = await doInParalel(
                 fullUrlList,
                 pageScraper,
                 isString,
                 "Extracting data from pages   ",
                 config
             );
-            pastesProgressBar.stop();
-            const [saves, savesProgressBar] = await doInParalel(
+      
+             await doInParalel(
                 pastes,
                 saveAll,
                 isPastes,
                 ""
             );
-            savesProgressBar.stop();
+       
         }
         console.log(`Finish scraping ${config.name}`);
     } catch (error) {
@@ -44,6 +44,7 @@ export const custumScrape = async (config: Config) => {
                 "extracting data from pages...",
                 config
             );
+
   
 
             let nonDuplicatedPastes: any = [];

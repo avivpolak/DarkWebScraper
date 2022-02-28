@@ -50,5 +50,7 @@ export const doInParalel = async (
             }
         }
     }
-    return [await Promise.all(promisesList), progressBar];
+   const results = await Promise.all(promisesList);
+   progressBar.stop();
+       return results;
 };

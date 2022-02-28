@@ -15,6 +15,7 @@ const fetchData = async (url, useTor) => {
         if ((0, typeGourds_1.isGeneralConfig)(generalConfig) && (0, isURL_1.default)(url)) {
             if (useTor) {
                 response = await axios_1.default.get(url, { proxy: generalConfig.proxy });
+                console.log(response.data);
                 return response.data;
             }
             else {

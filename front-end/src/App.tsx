@@ -15,7 +15,7 @@ import Alerts from "./components/Alerts";
 import KeyWords from "./components/KeyWords";
 import { objectTraps } from "immer/dist/internal";
 import { addAlert } from "./features/alerts/alertsSlice";
-import {config} from "./axois"
+import { config } from "./axois";
 
 function App() {
     const notyf = new Notyf({
@@ -43,7 +43,7 @@ function App() {
             },
         ],
     });
-
+    const [pageNumber, setPageNumber] = useState(0);
     const store = useStore().getState();
     const pastes = store.pasteReducer;
     const dispatch = useDispatch();
@@ -57,9 +57,9 @@ function App() {
                 for (let keyword of keyWords) {
                     if (Array.isArray(value)) {
                     } else {
-                       
-                        if (value.toLowerCase().includes(keyword.toLowerCase()) ) {
-                          
+                        if (
+                            value.toLowerCase().includes(keyword.toLowerCase())
+                        ) {
                             dispatch(
                                 addAlert({ isFullMatch: true, paste, keyword })
                             );
@@ -76,11 +76,15 @@ function App() {
     }, 10000);
     const updateData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/`,config);
-            setPasteCounter(response.data.data.length);
-            dispatch(add(response.data.data));
-            setLastUpdate(new Date().toLocaleTimeString());
-            searchForAlert(response.data.data);
+            // const response = await axios.post(
+            //     `http://localhost:8080/`,
+            //     { pageNumber },
+            //     config
+            // );
+            // setPasteCounter(response.data.data.length);
+            // dispatch(add(response.data.data));
+            // setLastUpdate(new Date().toLocaleTimeString());
+            // searchForAlert(response.data.data);
         } catch (err) {}
     };
 

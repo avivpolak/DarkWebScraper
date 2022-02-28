@@ -42,7 +42,7 @@ const LiveData = () => {
         } catch (err) {}
     };
 
-    const updateData = async (searchWord:string) => {
+    const updateData = async (searchWord: string) => {
         try {
             console.log(`updateData`);
             await getCount();
@@ -58,7 +58,9 @@ const LiveData = () => {
         } catch (err) {}
     };
 
-    useInterval(()=>{updateData(searchWord)}, 10000);
+    useInterval(() => {
+        updateData(searchWord);
+    }, 10000);
     useEffect(() => {
         updateData(searchWord);
     }, [pageNumber]);
@@ -71,11 +73,9 @@ const LiveData = () => {
         <>
             <Header />
             <DebounceInput
-
                 debounceTimeout={300}
                 onChange={(event) => {
                     setSearchWord(event.target.value);
-                    // console.log(searchWord)
                     updateData(event.target.value);
                 }}
             />

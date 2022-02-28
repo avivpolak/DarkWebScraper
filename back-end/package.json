@@ -41,8 +41,8 @@
         "scrap": "tsc && node dist/webScraper/index.js",
         "api": "tsc && node dist/api/index.js",
         "db": "tsc && node dist/prisma/index.js",
-        "build": "tsc",
-        "test": "tsc-watch  -p ./tsconfig.json --onSuccess \"node dist/test/prisma.js\""
+        "test": "tsc && node dist/webScraper/test/test.js",
+        "build": "tsc"
     },
     "repository": {
         "type": "git",

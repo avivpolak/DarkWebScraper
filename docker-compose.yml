@@ -6,13 +6,13 @@ services:
       - "8080:8080"
     depends_on:
       - "torProxy"
-      - "db"
+      - "postgres"
   torProxy:
     image: "dperson/torproxy"
     ports:
       - "8118:8118"
       - "9050:9050"
-  db:
+  postgres:
     image: postgres
     restart: always
     environment:

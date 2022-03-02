@@ -6,6 +6,7 @@ import {
     getLabelsStatisticsFromDb,
     getPagesPastesFromDb,
     countAllItems,
+    getPasteByIdFromDb,
 } from "../../prisma/utils/paste/actions";
 import { ServerError } from "../../errors/types";
 
@@ -15,7 +16,7 @@ export const getPagesPastes = async (req: any, res: any) => {
         const pasetsPerPage: number =
             Number(req.sanitize(req.query.pasetsPerPage)) || 10;
         const searchWord = req.sanitize(req.query.searchWord);
-        
+
         if (pasetsPerPage > 200)
             return res.status(403).send('"Pasets per page" is too large'); //against data thieth
         let pagesPastes;
@@ -73,6 +74,23 @@ export const getLabelsStatistics = async (req: Request, res: Response) => {
         res.status(500).send("Internal server Error");
     }
 };
+export const getPasteById = async (req: any, res: any) => {
+    try {
+        const pasteId = Number(req.sanitize(req.query.id));
+        if (pasteId) {
+            const paste =await getPasteByIdFromDb(pasteId);
+            if (paste) {
+                return res.status(200).json(paste);
+            }
+        } else {
+            return res.status(204).send("No posts found");
+        }
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).send("Internal server Error");
+    }
+};
+
 export const getPastesByQuery = async (req: any, res: any) => {
     try {
         const query = req.sanitize(req.params.query);

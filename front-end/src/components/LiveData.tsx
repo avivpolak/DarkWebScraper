@@ -39,8 +39,7 @@ const LiveData = () => {
             );
             if (searchWord) {
                 setCount(data.length);
-            }
-            else{
+            } else {
                 setCount(response.data);
             }
         } catch (err) {}
@@ -48,7 +47,6 @@ const LiveData = () => {
 
     const updateData = async (searchWord: string) => {
         try {
-            console.log(`updateData`);
             await getCount();
             const response = await axios.get(
                 `http://localhost:8080/?page=${pageNumber}&pasetsPerPage=${pasetsPerPage}&searchWord=${searchWord}`,
@@ -62,6 +60,16 @@ const LiveData = () => {
         } catch (err) {}
     };
 
+    const showDetailedPaste = async (id: number) => {
+        try {
+            await getCount();
+            const response = await axios.get(
+                `http://localhost:8080/paste?id=${id}`,
+                config
+            );
+            console.log(response.data);
+        } catch (err) {}
+    };
     useInterval(() => {
         updateData(searchWord);
     }, 10000);
@@ -130,7 +138,12 @@ const LiveData = () => {
                                     </thead>
                                     <tbody>
                                         {data.map((item: Paste, i: number) => (
-                                            <tr key={i}>
+                                            <tr
+                                                key={i}
+                                                onClick={() =>
+                                                    showDetailedPaste(item.id)
+                                                }
+                                            >
                                                 <td>{item.title}</td>
                                                 <td>{item.labels}</td>
                                                 <td>{item.author}</td>

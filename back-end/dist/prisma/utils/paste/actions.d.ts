@@ -8,7 +8,9 @@ export declare const getPagesPastesFromDbWithSearchWord: (page: number, pasetsPe
     date: string | null;
     author: string | null;
 }[]>;
+export declare const getPasteByIdFromDb: (pasteId: number) => Promise<import(".prisma/client").Paste | null>;
 export declare const getPagesPastesFromDb: (page: number, pasetsPerPage: number) => Promise<{
+    id: number;
     title: string | null;
     labels: string[];
     date: string | null;

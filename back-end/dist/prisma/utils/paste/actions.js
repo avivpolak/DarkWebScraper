@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPastesByQueryFromDb = exports.getLabelsStatisticsFromDb = exports.getPagesPastesFromDb = exports.getPagesPastesFromDbWithSearchWord = exports.countAllItems = exports.deleteAllPastesFromDb = exports.saveToDb = void 0;
+exports.getPastesByQueryFromDb = exports.getLabelsStatisticsFromDb = exports.getPagesPastesFromDb = exports.getPasteByIdFromDb = exports.getPagesPastesFromDbWithSearchWord = exports.countAllItems = exports.deleteAllPastesFromDb = exports.saveToDb = void 0;
 const client_1 = require("@prisma/client");
 const helpers_1 = require("./utils/helpers");
 const prisma = new client_1.PrismaClient();
@@ -95,6 +95,14 @@ const getPagesPastesFromDbWithSearchWord = async (page, pasetsPerPage, searchWor
     }
 };
 exports.getPagesPastesFromDbWithSearchWord = getPagesPastesFromDbWithSearchWord;
+const getPasteByIdFromDb = async (pasteId) => {
+    return await prisma.paste.findFirst({
+        where: {
+            id: pasteId,
+        },
+    });
+};
+exports.getPasteByIdFromDb = getPasteByIdFromDb;
 const getPagesPastesFromDb = async (page, pasetsPerPage) => {
     try {
         return await prisma.paste.findMany({
@@ -105,6 +113,7 @@ const getPagesPastesFromDb = async (page, pasetsPerPage) => {
                 author: true,
                 labels: true,
                 date: true,
+                id: true,
             },
             orderBy: {
                 date: "desc",

@@ -93,6 +93,15 @@ export const getPagesPastesFromDbWithSearchWord = async (
         throw err;
     }
 };
+export const getPasteByIdFromDb = async (
+    pasteId: number,
+) => {
+    return await prisma.paste.findFirst({
+        where: {
+            id: pasteId,
+        },
+    });
+};
 export const getPagesPastesFromDb = async (
     page: number,
     pasetsPerPage: number
@@ -106,6 +115,7 @@ export const getPagesPastesFromDb = async (
                 author: true,
                 labels: true,
                 date: true,
+                id: true,
             },
 
             orderBy: {

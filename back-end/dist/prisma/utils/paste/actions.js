@@ -12,6 +12,7 @@ const saveToDb = async (data) => {
         console.log("Item saved!");
     }
     catch (error) {
+        console.log(error);
         const err = {
             message: "db save error",
             code: "SERVER_ERROR",
@@ -121,6 +122,7 @@ const getPagesPastesFromDb = async (page, pasetsPerPage) => {
         });
     }
     catch (error) {
+        console.log(error);
         const err = {
             message: "db find error",
             code: "SERVER_ERROR",

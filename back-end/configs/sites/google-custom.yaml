@@ -1,19 +1,19 @@
 name: google
-url: https://www.google.com/search?q=%2Crdo&sxsrf=APq-WBtZmeOMzH8FSlTk-cTQjlHI0DeiDA%3A1644755594870&ei=ivoIYta-NPWC9u8Pk7mbiA8&ved=0ahUKEwjWq-WH2Pz1AhV1gf0HHZPcBvEQ4dUDCA4&uact=5&oq=%2Crdo&gs_lcp=Cgdnd3Mtd2l6EAMyBwgjELECECcyBAgAEAoyCggAELEDEIMBEAoyCggAELEDEIMBEAoyBAgAEAoyBAgAEAoyCggAELEDEIMBEAoyBAgAEAoyBAgAEAoyBAgAEAo6CAgAEIAEELADOgkIABCwAxAHEB46BwgAELADEB46BAgjECc6BwgAEIAEEAo6CQgAEIAEEAoQAToFCAAQgAQ6BwgjEOoCECc6BggjECcQEzoLCAAQsQMQChABEEM6CwguEIAEELEDEIMBOhEILhCABBCxAxCDARDHARDRAzoECC4QQzoECAAQQzoHCAAQsQMQCjoNCAAQsQMQChABEEMQKjoLCAAQgAQQsQMQgwE6BwgAELEDEEM6CAgAEIAEELEDOgUILhCABEoECEEYAUoECEYYAFCECFjvGmCqHGgCcAB4AYABrAGIAcUIkgEDMC43mAEAoAEBsAEKyAEKwAEB&sclient=gws-wiz
+url: https://www.google.com/search?q=%2Crdo&amp;sxsrf=APq-WBtZmeOMzH8FSlTk-cTQjlHI0DeiDA%3A1644755594870&amp;ei=ivoIYta-NPWC9u8Pk7mbiA8&amp;ved=0ahUKEwjWq-WH2Pz1AhV1gf0HHZPcBvEQ4dUDCA4&amp;uact=5&amp;oq=%2Crdo&amp;gs_lcp=Cgdnd3Mtd2l6EAMyBwgjELECECcyBAgAEAoyCggAELEDEIMBEAoyCggAELEDEIMBEAoyBAgAEAoyBAgAEAoyCggAELEDEIMBEAoyBAgAEAoyBAgAEAoyBAgAEAo6CAgAEIAEELADOgkIABCwAxAHEB46BwgAELADEB46BAgjECc6BwgAEIAEEAo6CQgAEIAEEAoQAToFCAAQgAQ6BwgjEOoCECc6BggjECcQEzoLCAAQsQMQChABEEM6CwguEIAEELEDEIMBOhEILhCABBCxAxCDARDHARDRAzoECC4QQzoECAAQQzoHCAAQsQMQCjoNCAAQsQMQChABEEMQKjoLCAAQgAQQsQMQgwE6BwgAELEDEEM6CAgAEIAEELEDOgUILhCABEoECEEYAUoECEYYAFCECFjvGmCqHGgCcAB4AYABrAGIAcUIkgEDMC43mAEAoAEBsAEKyAEKwAEB&amp;sclient=gws-wiz
 useTor: false
 maxUrls: 5
 allPosts:
   selector: "#rso"
 params:
   title:
-    selector: a > h3 > span
-    regex: /(?:)/
+    selector: a &gt; h3 &gt; span
+    regex: /\/(?:)\//
   content:
-    selector: div.VwiC3b.yXK7lf.MUxGbd.yDYNvb.lyLwlc.lEBKkf > span
-    regex: /(?:)/
+    selector: div.VwiC3b.yXK7lf.MUxGbd.yDYNvb.lyLwlc.lEBKkf &gt; span
+    regex: /\/(?:)\//
   date:
-    selector: span.MUxGbd.wuQ4Ob.WZ8Tjf > span
-    regex: /(?:)/
+    selector: span.MUxGbd.wuQ4Ob.WZ8Tjf &gt; span
+    regex: /\/(?:)\//
   url:
-    selector: cite > span:nth-child(1)
-    regex: /(?:)/
+    selector: cite &gt; span:nth-child(1)
+    regex: /\/(?:)\//

@@ -44,7 +44,6 @@ const CustomScrape = () => {
     const selectConfig = useRef<any>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [config, setConfig] = useState(defaultConfig);
-    const [defaultConfigState, setDefaultConfigState] = useState(defaultConfig);
     const [configs, setConfigs] = useState([]);
     const [data, setData] = useState([
         { param1: "" } as Item,
@@ -55,7 +54,7 @@ const CustomScrape = () => {
             const response = await axios.get(`http://localhost:8080/configs`);
             if (response.data) {
                 setConfigs(response.data);
-                console.log(response.data)
+                console.log(response.data);
             }
         } catch (err) {}
     };
@@ -96,26 +95,25 @@ const CustomScrape = () => {
             <MyLoader active={isLoading}>
                 <Header />
                 <Container fluid>
+
                     <Row>
-                        <select
+                        <Col md="12">
+                            <div className="form margin"></div>
+                            <select
                             ref={selectConfig}
                             onChange={() => {
-                            
-                                    setDefaultConfigState(selectConfig?.current?.value);
-                               
+                                console.log(configs[Number(selectConfig?.current?.value)]);
+                                setConfig(
+                                    configs[Number(selectConfig?.current?.value)]
+                                );
                             }}
                         >
-                            {configs.map((config: any) => (
-                                <option key={config.id} value={config}>
+                            {configs.map((config: any, index) => (
+                                <option key={config.id} value={index}>
                                     {config.name}
                                 </option>
                             ))}
                         </select>
-                    </Row>
-                    <Row>
-                        <Col md="12">
-                            <div className="form margin"></div>
-
                             <Card>
                                 <Card.Header>
                                     <Card.Title as="h4">
@@ -134,9 +132,10 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>URL</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.url
+                                                        value={
+                                                            config.url
                                                         }
+                                    
                                                         placeholder="URL"
                                                         type="text"
                                                         required
@@ -150,8 +149,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>site name</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.name
+                                                        value={
+                                                            config.name
                                                         }
                                                         placeholder="site name"
                                                         type="text"
@@ -164,7 +163,7 @@ const CustomScrape = () => {
                                             <Col className="pl-1" md="4">
                                                 <Form.Check
                                                     defaultChecked={
-                                                        defaultConfigState.useTor
+                                                        config.useTor
                                                     }
                                                     onChange={handleChange}
                                                     label={`use Tor`}
@@ -177,8 +176,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>maxUrls</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.maxUrls
+                                                        value={
+                                                            config.maxUrls
                                                         }
                                                         placeholder="Company"
                                                         type="number"
@@ -195,8 +194,8 @@ const CustomScrape = () => {
                                                         all Posts css Selector
                                                     </label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.allPostsSelector
+                                                        value={
+                                                            config.allPostsSelector
                                                         }
                                                         placeholder="css Selector"
                                                         type="text"
@@ -213,8 +212,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>Name</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param1Name
+                                                        value={
+                                                            config.param1Name
                                                         }
                                                         type="text"
                                                         required
@@ -227,8 +226,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>Selector</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param1Selector
+                                                        value={
+                                                            config.param1Selector
                                                         }
                                                         placeholder=""
                                                         type="text"
@@ -242,8 +241,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>REGEX</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param1REGEX
+                                                        value={
+                                                            config.param1REGEX
                                                         }
                                                         type="text"
                                                         onChange={handleChange}
@@ -257,8 +256,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>Name</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param2Name
+                                                        value={
+                                                            config.param2Name
                                                         }
                                                         type="text"
                                                         required
@@ -271,8 +270,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>Selector</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param2Selector
+                                                        value={
+                                                            config.param2Selector
                                                         }
                                                         placeholder=""
                                                         type="text"
@@ -286,8 +285,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>REGEX</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param2REGEX
+                                                        value={
+                                                            config.param2REGEX
                                                         }
                                                         type="text"
                                                         onChange={handleChange}
@@ -301,8 +300,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>Name</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param3Name
+                                                        value={
+                                                            config.param3Name
                                                         }
                                                         type="text"
                                                         required
@@ -315,8 +314,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>Selector</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param3Selector
+                                                        value={
+                                                            config.param3Selector
                                                         }
                                                         placeholder=""
                                                         type="text"
@@ -330,8 +329,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>REGEX</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param3REGEX
+                                                        value={
+                                                            config.param3REGEX
                                                         }
                                                         type="text"
                                                         onChange={handleChange}
@@ -345,8 +344,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>Name</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param4Name
+                                                        value={
+                                                            config.param4Name
                                                         }
                                                         type="text"
                                                         required
@@ -359,8 +358,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>Selector</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param4Selector
+                                                        value={
+                                                            config.param4Selector
                                                         }
                                                         placeholder=""
                                                         type="text"
@@ -374,8 +373,8 @@ const CustomScrape = () => {
                                                 <Form.Group>
                                                     <label>REGEX</label>
                                                     <Form.Control
-                                                        defaultValue={
-                                                            defaultConfigState.param4REGEX
+                                                        value={
+                                                            config.param4REGEX
                                                         }
                                                         type="text"
                                                         onChange={handleChange}
@@ -394,7 +393,9 @@ const CustomScrape = () => {
                                             </Button>
                                             <Col className="pl-1" md="4">
                                                 <Form.Check
-                                                    defaultChecked={defaultConfigState.save}
+                                                    defaultChecked={
+                                                        config.save
+                                                    }
                                                     onChange={handleChange}
                                                     label={`save to server configurations`}
                                                     id={`save`}

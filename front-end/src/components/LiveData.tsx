@@ -37,8 +37,12 @@ const LiveData = () => {
                 `http://localhost:8080/countAll`,
                 config
             );
-
-            setCount(response.data);
+            if (searchWord) {
+                setCount(data.length);
+            }
+            else{
+                setCount(response.data);
+            }
         } catch (err) {}
     };
 
@@ -73,6 +77,7 @@ const LiveData = () => {
         <>
             <Header />
             <DebounceInput
+                className="searchInput"
                 debounceTimeout={300}
                 onChange={(event) => {
                     setSearchWord(event.target.value);
@@ -84,6 +89,7 @@ const LiveData = () => {
                 <Row>
                     <Col md="12">
                         <ReactPaginate
+                            className="pagination"
                             onPageChange={handlePageClick}
                             breakLabel="..."
                             nextLabel="next >"

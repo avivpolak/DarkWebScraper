@@ -50,7 +50,7 @@ const getPagesPastesFromDbWithSearchWord = async (page, pasetsPerPage, searchWor
     try {
         console.log("searchWordsearchWord", searchWord);
         const result = await prisma.paste.findMany({
-            skip: page * pasetsPerPage,
+            // skip: page * pasetsPerPage,
             take: pasetsPerPage,
             select: {
                 title: true,

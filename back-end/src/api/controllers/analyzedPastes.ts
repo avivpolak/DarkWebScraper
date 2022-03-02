@@ -15,6 +15,7 @@ export const getPagesPastes = async (req: any, res: any) => {
         const pasetsPerPage: number =
             Number(req.sanitize(req.query.pasetsPerPage)) || 10;
         const searchWord = req.sanitize(req.query.searchWord);
+        
         if (pasetsPerPage > 200)
             return res.status(403).send('"Pasets per page" is too large'); //against data thieth
         let pagesPastes;

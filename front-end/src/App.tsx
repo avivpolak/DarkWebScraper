@@ -102,8 +102,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/Dashboard" element={<Dashboard />} />
+                    <Route path="/" element={<Dashboard />} />
                     <Route path="/CustomScrape" element={<CustomScrape />} />
                     <Route path="/LiveData" element={<LiveData />} />
                     <Route path="/Alerts" element={<Alerts />} />

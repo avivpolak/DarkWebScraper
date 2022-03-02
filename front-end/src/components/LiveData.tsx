@@ -22,6 +22,8 @@ import SearchBar from "./SearchBar";
 import ReactPaginate from "react-paginate";
 import { config } from "../axois";
 import { DebounceInput } from "react-debounce-input";
+import Modal from "./Modal";
+import DetailedPaste from "./DetailedPaste";
 
 const LiveData = () => {
     const [searchWord, setSearchWord] = useState("");
@@ -30,6 +32,16 @@ const LiveData = () => {
     const store = useStore().getState();
     const [data, setData] = useState([]);
     const [count, setCount] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+    const [shownPaste, setShownPaste] = useState({
+        title: "",
+        content: "",
+        date: "",
+        id: "",
+        author: "",
+        labels: [],
+        santimate: "",
+    });
 
     const getCount = async () => {
         try {
@@ -67,6 +79,8 @@ const LiveData = () => {
                 `http://localhost:8080/paste?id=${id}`,
                 config
             );
+            setShownPaste(response.data);
+            setShowModal(true);
             console.log(response.data);
         } catch (err) {}
     };
@@ -157,6 +171,10 @@ const LiveData = () => {
                     </Col>
                 </Row>
             </Container>
+            <Modal show={showModal} setShowModal={setShowModal}>
+                <DetailedPaste shownPaste={shownPaste}/>
+
+            </Modal>
         </>
     );
 };

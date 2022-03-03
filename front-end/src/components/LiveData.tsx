@@ -98,18 +98,18 @@ const LiveData = () => {
     return (
         <>
             <Header />
-            <DebounceInput
-                className="searchInput"
-                debounceTimeout={300}
-                onChange={(event) => {
-                    setSearchWord(event.target.value);
-                    updateData(event.target.value);
-                }}
-            />
 
             <Container fluid>
                 <Row>
                     <Col md="12">
+                        <DebounceInput
+                            className="searchInput"
+                            debounceTimeout={300}
+                            onChange={(event) => {
+                                setSearchWord(event.target.value);
+                                updateData(event.target.value);
+                            }}
+                        />
                         <ReactPaginate
                             className="pagination"
                             onPageChange={handlePageClick}
@@ -172,8 +172,7 @@ const LiveData = () => {
                 </Row>
             </Container>
             <Modal show={showModal} setShowModal={setShowModal}>
-                <DetailedPaste shownPaste={shownPaste}/>
-
+                <DetailedPaste shownPaste={shownPaste} />
             </Modal>
         </>
     );

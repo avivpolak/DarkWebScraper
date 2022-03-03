@@ -53,6 +53,7 @@ export const getPagesPastesFromDbWithSearchWord = async (
             // skip: page * pasetsPerPage,
             take: pasetsPerPage,
             select: {
+                id: true,
                 title: true,
                 author: true,
                 labels: true,
@@ -98,6 +99,15 @@ export const getPasteByIdFromDb = async (
     pasteId: number,
 ) => {
     return await prisma.paste.findFirst({
+        select: {
+            title: true,
+            author: true,
+            content: true,
+            labels: true,
+            santimate: true,
+            date: true,
+            id: true,
+        },
         where: {
             id: pasteId,
         },

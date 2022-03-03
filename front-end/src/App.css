@@ -12,9 +12,7 @@
 .icon {
     height: 5rem;
     width: 5rem;
-    position: absolute;
-    top: 0;
-    left: 0;
+
 }
 .pagination{
     display: flex;
@@ -23,6 +21,7 @@
     margin-top: 2rem;
 }
 .searchInput{
+
   display: flex;
   justify-content: center;
   margin-top: 2rem;

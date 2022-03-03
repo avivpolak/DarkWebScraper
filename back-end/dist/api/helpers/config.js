@@ -81,7 +81,7 @@ const convertStandartConfigToReqConfig = (config) => {
             param4Name: Object.keys(config.params)[3],
             param4Selector: config.params[Object.keys(config.params)[3]].selector,
             param4REGEX: config.params[Object.keys(config.params)[3]].regex.source,
-            save: true,
+            save: false,
         };
         return reqConfig;
     }

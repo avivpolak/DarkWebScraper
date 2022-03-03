@@ -7,8 +7,8 @@ export default function Header() {
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <img src={icon} className="icon" />
-                <Container>
+            <img src={icon} className="icon" />
+                <Container>  
                     <Navbar.Brand>
                         <h1>Dark web Scraper</h1>
                     </Navbar.Brand>

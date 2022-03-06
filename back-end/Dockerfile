@@ -8,7 +8,7 @@ RUN npm install -g ts-node
 USER node
 RUN npm install
 COPY --chown=node:node . .
-RUN cd src && npx prisma migrate deploy --name init
+RUN cd src && npx prisma migrate deploy
 RUN npm run scrap
 
 

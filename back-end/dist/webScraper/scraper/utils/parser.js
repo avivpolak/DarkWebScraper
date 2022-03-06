@@ -7,18 +7,24 @@ exports.parseHtmlToObject = void 0;
 const node_html_parser_1 = __importDefault(require("node-html-parser"));
 const regex_1 = require("./regex");
 const parseHtmlToObject = (html, config) => {
-    const parseResult = (0, node_html_parser_1.default)(html);
-    if (parseResult) {
-        const posts = parseResult.querySelectorAll(config.allPosts.selector);
-        const analyzedPosts = getPastesList(posts, config.params);
-        if (analyzedPosts.length > 0) {
-            return analyzedPosts;
+    try {
+        const parseResult = (0, node_html_parser_1.default)(html);
+        if (parseResult) {
+            const posts = parseResult.querySelectorAll(config.allPosts.selector);
+            const analyzedPosts = getPastesList(posts, config.params);
+            if (analyzedPosts.length > 0) {
+                return analyzedPosts;
+            }
+            else {
+                return undefined;
+            }
         }
         else {
             return undefined;
         }
     }
-    else {
+    catch (error) {
+        console.log(error);
         return undefined;
     }
 };

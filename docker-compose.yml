@@ -1,31 +1,44 @@
 version: "3.9"
 services:
-  web:
-    build: ./back-end
-    ports:
-      - "8080:8080"
-    depends_on:
-      - "torProxy"
-      - "db"
-  torProxy:
-    image: "dperson/torproxy"
-    ports:
-      - "8118:8118"
-      - "9050:9050"
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
-  client:
-    container_name: client-container
-    restart: always
-    build: ./front-end
-    ports:
-      - "3000:3000"
-    depends_on:
-      - web
+    postgres:
+        container_name: postgres
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        networks:
+            - back
 
 
+    torProxy:
+        container_name: torProxy
+        image: "dperson/torproxy"
+        ports:
+            - 8118:8118
+            - 9050:9050
+        networks:
+            - back
 
+    api:
+        container_name: api
+        build: ./back-end
+        ports:
+            - 8080:8080
+        depends_on:
+            - "torProxy"
+            - "postgres"
+        networks:
+            - back
+
+    client:
+        container_name: client-container
+        restart: always
+        build: ./front-end
+        ports:
+            - 3000:3000
+        depends_on:
+            - api
+        networks:
+            - back
+networks:
+    back:
+        driver: bridge

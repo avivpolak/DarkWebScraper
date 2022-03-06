@@ -20,7 +20,6 @@ export const keywordsSlice = createSlice({
         },
         remove: (state, action) => {
             const newKeywordToRemove = action.payload;
-            console.log(newKeywordToRemove);
             if (typeof newKeywordToRemove === "string") {
                 state = state.filter((keyword) => {
                     return keyword != newKeywordToRemove;

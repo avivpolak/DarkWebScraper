@@ -71,26 +71,26 @@ function App() {
     };
     const [pasteCounter, setPasteCounter] = useState(0);
 
-    useInterval(() => {
-        updateData();
-    }, 10000);
-    const updateData = async () => {
-        try {
-            // const response = await axios.post(
-            //     `http://localhost:8080/`,
-            //     { pageNumber },
-            //     config
-            // );
-            // setPasteCounter(response.data.data.length);
-            // dispatch(add(response.data.data));
-            // setLastUpdate(new Date().toLocaleTimeString());
-            // searchForAlert(response.data.data);
-        } catch (err) {}
-    };
+    // useInterval(() => {
+    //     updateData();
+    // }, 10000);
+    // const updateData = async () => {
+    //     try {
+    //         // const response = await axios.post(
+    //         //     `http://localhost:8080/`,
+    //         //     { pageNumber },
+    //         //     config
+    //         // );
+    //         // setPasteCounter(response.data.data.length);
+    //         // dispatch(add(response.data.data));
+    //         // setLastUpdate(new Date().toLocaleTimeString());
+    //         // searchForAlert(response.data.data);
+    //     } catch (err) {}
+    // };
 
-    useEffect(() => {
-        updateData();
-    }, []);
+    // useEffect(() => {
+    //     updateData();
+    // }, []);
     useEffect(() => {
         const newPastesCount = pasteCounter - pastes.length;
         if (newPastesCount) {
@@ -102,8 +102,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/Dashboard" element={<Dashboard />} />
+                    <Route path="/" element={<Dashboard />} />
                     <Route path="/CustomScrape" element={<CustomScrape />} />
                     <Route path="/LiveData" element={<LiveData />} />
                     <Route path="/Alerts" element={<Alerts />} />

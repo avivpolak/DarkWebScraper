@@ -6,6 +6,7 @@ export interface Paste {
     title: string;
     author: string;
     date: string;
+    id: number;
 }
 // const defaultData = [
 //     { title: "string", labels: "string", author: "string", date: "string" },

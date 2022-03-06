@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPastesByQueryFromDb = exports.getLabelsStatisticsFromDb = exports.getPagesPastesFromDb = exports.countAllItems = exports.deleteAllPastesFromDb = exports.saveToDb = void 0;
+exports.getPastesByQueryFromDb = exports.getLabelsStatisticsFromDb = exports.getPagesPastesFromDb = exports.getPasteByIdFromDb = exports.getPagesPastesFromDbWithSearchWord = exports.countAllItems = exports.deleteAllPastesFromDb = exports.saveToDb = void 0;
 const client_1 = require("@prisma/client");
 const helpers_1 = require("./utils/helpers");
 const prisma = new client_1.PrismaClient();
@@ -12,6 +12,7 @@ const saveToDb = async (data) => {
         console.log("Item saved!");
     }
     catch (error) {
+        console.log(error);
         const err = {
             message: "db save error",
             code: "SERVER_ERROR",
@@ -46,6 +47,73 @@ const countAllItems = async () => {
     }
 };
 exports.countAllItems = countAllItems;
+const getPagesPastesFromDbWithSearchWord = async (page, pasetsPerPage, searchWord) => {
+    try {
+        console.log("searchWordsearchWord", searchWord);
+        const result = await prisma.paste.findMany({
+            // skip: page * pasetsPerPage,
+            take: pasetsPerPage,
+            select: {
+                id: true,
+                title: true,
+                author: true,
+                labels: true,
+                date: true,
+            },
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: searchWord,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        content: {
+                            contains: searchWord,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        labels: {
+                            has: searchWord,
+                        },
+                    },
+                ],
+            },
+            orderBy: {
+                date: "desc",
+            },
+        });
+        console.log(result);
+        return result;
+    }
+    catch (error) {
+        const err = {
+            message: "db find error",
+            code: "SERVER_ERROR",
+        };
+        throw err;
+    }
+};
+exports.getPagesPastesFromDbWithSearchWord = getPagesPastesFromDbWithSearchWord;
+const getPasteByIdFromDb = async (pasteId) => {
+    return await prisma.paste.findFirst({
+        select: {
+            title: true,
+            author: true,
+            content: true,
+            labels: true,
+            santimate: true,
+            date: true,
+            id: true,
+        },
+        where: {
+            id: pasteId,
+        },
+    });
+};
+exports.getPasteByIdFromDb = getPasteByIdFromDb;
 const getPagesPastesFromDb = async (page, pasetsPerPage) => {
     try {
         return await prisma.paste.findMany({
@@ -56,6 +124,7 @@ const getPagesPastesFromDb = async (page, pasetsPerPage) => {
                 author: true,
                 labels: true,
                 date: true,
+                id: true,
             },
             orderBy: {
                 date: "desc",
@@ -63,6 +132,7 @@ const getPagesPastesFromDb = async (page, pasetsPerPage) => {
         });
     }
     catch (error) {
+        console.log(error);
         const err = {
             message: "db find error",
             code: "SERVER_ERROR",
@@ -135,14 +205,14 @@ const getPastesByQueryFromDb = async (query) => {
                     },
                 ],
             },
+            orderBy: {
+                date: "desc",
+            },
             select: {
                 title: true,
                 author: true,
                 labels: true,
                 date: true,
-            },
-            orderBy: {
-                date: "desc",
             },
         });
     }

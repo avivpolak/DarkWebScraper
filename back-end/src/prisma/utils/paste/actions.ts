@@ -12,6 +12,7 @@ export const saveToDb = async (data: Paste) => {
         });
         console.log("Item saved!");
     } catch (error: any) {
+        console.log(error);
         const err: ServerError = {
             message: "db save error",
             code: "SERVER_ERROR",
@@ -41,6 +42,77 @@ export const countAllItems = async () => {
         throw err;
     }
 };
+export const getPagesPastesFromDbWithSearchWord = async (
+    page: number,
+    pasetsPerPage: number,
+    searchWord: string
+) => {
+    try {
+        console.log("searchWordsearchWord", searchWord);
+        const result = await prisma.paste.findMany({
+            // skip: page * pasetsPerPage,
+            take: pasetsPerPage,
+            select: {
+                id: true,
+                title: true,
+                author: true,
+                labels: true,
+                date: true,
+            },
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: searchWord,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        content: {
+                            contains: searchWord,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        labels: {
+                            has: searchWord,
+                        },
+                    },
+                ],
+            },
+
+            orderBy: {
+                date: "desc",
+            },
+        });
+        console.log(result);
+        return result;
+    } catch (error: any) {
+        const err: ServerError = {
+            message: "db find error",
+            code: "SERVER_ERROR",
+        };
+        throw err;
+    }
+};
+export const getPasteByIdFromDb = async (
+    pasteId: number,
+) => {
+    return await prisma.paste.findFirst({
+        select: {
+            title: true,
+            author: true,
+            content: true,
+            labels: true,
+            santimate: true,
+            date: true,
+            id: true,
+        },
+        where: {
+            id: pasteId,
+        },
+    });
+};
 export const getPagesPastesFromDb = async (
     page: number,
     pasetsPerPage: number
@@ -54,12 +126,16 @@ export const getPagesPastesFromDb = async (
                 author: true,
                 labels: true,
                 date: true,
+                id: true,
             },
+
             orderBy: {
                 date: "desc",
             },
         });
     } catch (error: any) {
+        console.log(error);
+
         const err: ServerError = {
             message: "db find error",
             code: "SERVER_ERROR",
@@ -81,13 +157,13 @@ export const getLabelsStatisticsFromDb = async () => {
                 },
             },
         });
-        const labels = groups.map((item:any) => item.labels.join(","));
+        const labels = groups.map((item: any) => item.labels.join(","));
         const sum = groups
-            .map((group:any) => group._count.id)
-            .reduce((a:any, b:any) => a + b, 0);
-        const series = groups.map((item:any) => (item._count.id / sum) * 100);
+            .map((group: any) => group._count.id)
+            .reduce((a: any, b: any) => a + b, 0);
+        const series = groups.map((item: any) => (item._count.id / sum) * 100);
 
-        const itemToSend = labels.map((label:any, index:any) => {
+        const itemToSend = labels.map((label: any, index: any) => {
             return {
                 title: label,
                 color: getRandomColor(),
@@ -132,14 +208,14 @@ export const getPastesByQueryFromDb = async (query: string) => {
                     },
                 ],
             },
+            orderBy: {
+                date: "desc",
+            },
             select: {
                 title: true,
                 author: true,
                 labels: true,
                 date: true,
-            },
-            orderBy: {
-                date: "desc",
             },
         });
     } catch (error: any) {

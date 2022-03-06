@@ -7,13 +7,13 @@ allPosts:
 params:
   title:
     selector: .css-19tpcfu .eu6esji3
-    regex: /(?:)/
+    regex: /\/(?:)\//
   content:
     selector: .css-1i00gl6 .e1sx3tzs17
-    regex: /(?:)/
+    regex: /\/(?:)\//
   author:
     selector: .css-1i00gl6 .e1sx3tzs17
-    regex: /(?:)/
+    regex: /\/(?:)\//
   date:
-    selector: div.css-1yo09r9.eu6esji13 > div > div
-    regex: /(?:)/
+    selector: div.css-1yo09r9.eu6esji13 &gt; div &gt; div
+    regex: /\/(?:)\//

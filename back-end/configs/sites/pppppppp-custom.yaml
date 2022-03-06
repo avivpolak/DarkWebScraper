@@ -1,0 +1,19 @@
+name: pppppppp
+url: https://paste.scratchbook.ch
+useTor: false
+maxUrls: 20
+allPosts:
+  selector: body
+params:
+  title:
+    selector: .pagetitle
+    regex: /(?:)/
+  content:
+    selector: ol
+    regex: /(?:)/
+  author:
+    selector: .detail .by
+    regex: /(?:)/
+  date:
+    selector: .detail .by
+    regex: /(?:)/

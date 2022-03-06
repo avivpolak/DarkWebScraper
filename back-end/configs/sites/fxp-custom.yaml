@@ -1,0 +1,19 @@
+name: fxp
+url: https://www.fxp.co.il/forumdisplay.php?f=2695
+useTor: false
+maxUrls: 50
+allPosts:
+  selector: .threadbit
+params:
+  title:
+    selector: .title
+    regex: /(?:)/
+  label:
+    selector: .label
+    regex: /(?:)/
+  eyeviews:
+    selector: .eyeviews
+    regex: /(?:)/
+  arreplycount:
+    selector: .arreplycount
+    regex: /(?:)/

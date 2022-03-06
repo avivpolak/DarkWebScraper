@@ -21,14 +21,27 @@ import Header from "./Header";
 import SearchBar from "./SearchBar";
 import ReactPaginate from "react-paginate";
 import { config } from "../axois";
+import { DebounceInput } from "react-debounce-input";
+import Modal from "./Modal";
+import DetailedPaste from "./DetailedPaste";
 
 const LiveData = () => {
     const [searchWord, setSearchWord] = useState("");
     const [pageNumber, setPageNumber] = useState(3);
     const [pasetsPerPage, setPasetsPerPage] = useState(10);
     const store = useStore().getState();
-    const [data, setData] = useState(store.pasteReducer);
+    const [data, setData] = useState([]);
     const [count, setCount] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+    const [shownPaste, setShownPaste] = useState({
+        title: "",
+        content: "",
+        date: "",
+        id: "",
+        author: "",
+        labels: [],
+        santimate: "",
+    });
 
     const getCount = async () => {
         try {
@@ -36,24 +49,46 @@ const LiveData = () => {
                 `http://localhost:8080/countAll`,
                 config
             );
-            setCount(response.data);
-        } catch (err) {}
-    };
-
-    const updateData = async () => {
-        try {
-            await getCount();
-            const response = await axios.get(`http://localhost:8080/?page=${pageNumber}&pasetsPerPage=${pasetsPerPage}`, config);
-            if (response.data.length > 0) {
-                console.log(response.data);
-                setData(response.data);
+            if (searchWord) {
+                setCount(data.length);
+            } else {
+                setCount(response.data);
             }
         } catch (err) {}
     };
 
-    useInterval(updateData, 10000);
+    const updateData = async (searchWord: string) => {
+        try {
+            await getCount();
+            const response = await axios.get(
+                `http://localhost:8080/?page=${pageNumber}&pasetsPerPage=${pasetsPerPage}&searchWord=${searchWord}`,
+                config
+            );
+            if (response.data.length > 0) {
+                setData(response.data);
+            } else {
+                setData([]);
+            }
+        } catch (err) {}
+    };
+
+    const showDetailedPaste = async (id: number) => {
+        try {
+            await getCount();
+            const response = await axios.get(
+                `http://localhost:8080/paste?id=${id}`,
+                config
+            );
+            setShownPaste(response.data);
+            setShowModal(true);
+            console.log(response.data);
+        } catch (err) {}
+    };
+    useInterval(() => {
+        updateData(searchWord);
+    }, 10000);
     useEffect(() => {
-        updateData();
+        updateData(searchWord);
     }, [pageNumber]);
 
     const handlePageClick = ({ selected }: any) => {
@@ -63,8 +98,39 @@ const LiveData = () => {
     return (
         <>
             <Header />
-            <SearchBar setSearchWord={setSearchWord} />
+
             <Container fluid>
+                <Row>
+                    <Col md="12">
+                        <DebounceInput
+                            className="searchInput"
+                            debounceTimeout={300}
+                            onChange={(event) => {
+                                setSearchWord(event.target.value);
+                                updateData(event.target.value);
+                            }}
+                        />
+                        <ReactPaginate
+                            className="pagination"
+                            onPageChange={handlePageClick}
+                            breakLabel="..."
+                            nextLabel="next >"
+                            pageRangeDisplayed={5}
+                            pageCount={count / pasetsPerPage}
+                            previousLabel="< previous"
+                            breakClassName={"page-item"}
+                            breakLinkClassName={"page-link"}
+                            containerClassName={"pagination"}
+                            pageClassName={"page-item"}
+                            pageLinkClassName={"page-link"}
+                            previousClassName={"page-item"}
+                            previousLinkClassName={"page-link"}
+                            nextClassName={"page-item"}
+                            nextLinkClassName={"page-link"}
+                            activeClassName={"active"}
+                        />
+                    </Col>
+                </Row>
                 <Row>
                     <Col md="12">
                         <Card className="strpied-tabled-with-hover">
@@ -86,7 +152,12 @@ const LiveData = () => {
                                     </thead>
                                     <tbody>
                                         {data.map((item: Paste, i: number) => (
-                                            <tr key={i}>
+                                            <tr
+                                                key={i}
+                                                onClick={() =>
+                                                    showDetailedPaste(item.id)
+                                                }
+                                            >
                                                 <td>{item.title}</td>
                                                 <td>{item.labels}</td>
                                                 <td>{item.author}</td>
@@ -99,29 +170,10 @@ const LiveData = () => {
                         </Card>
                     </Col>
                 </Row>
-                <Row>
-                    <Col md="12">
-                        <ReactPaginate
-                            onPageChange={handlePageClick}
-                            breakLabel="..."
-                            nextLabel="next >"
-                            pageRangeDisplayed={5}
-                            pageCount={count / pasetsPerPage}
-                            previousLabel="< previous"
-                            breakClassName={"page-item"}
-                            breakLinkClassName={"page-link"}
-                            containerClassName={"pagination"}
-                            pageClassName={"page-item"}
-                            pageLinkClassName={"page-link"}
-                            previousClassName={"page-item"}
-                            previousLinkClassName={"page-link"}
-                            nextClassName={"page-item"}
-                            nextLinkClassName={"page-link"}
-                            activeClassName={"active"}
-                        />
-                    </Col>
-                </Row>
             </Container>
+            <Modal show={showModal} setShowModal={setShowModal}>
+                <DetailedPaste shownPaste={shownPaste} />
+            </Modal>
         </>
     );
 };

@@ -1,14 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPastesByQuery = exports.getLabelsStatistics = exports.getCount = exports.deleteAllPastes = exports.getPagesPastes = void 0;
+exports.getPastesByQuery = exports.getPasteById = exports.getLabelsStatistics = exports.getCount = exports.deleteAllPastes = exports.getPagesPastes = void 0;
 const actions_1 = require("../../prisma/utils/paste/actions");
 const getPagesPastes = async (req, res) => {
     try {
         const page = Number(req.sanitize(req.query.page)) || 0;
         const pasetsPerPage = Number(req.sanitize(req.query.pasetsPerPage)) || 10;
+        const searchWord = req.sanitize(req.query.searchWord);
         if (pasetsPerPage > 200)
             return res.status(403).send('"Pasets per page" is too large'); //against data thieth
-        const pagesPastes = await (0, actions_1.getPagesPastesFromDb)(page, pasetsPerPage);
+        let pagesPastes;
+        if (searchWord) {
+            pagesPastes = await (0, actions_1.getPagesPastesFromDbWithSearchWord)(page, pasetsPerPage, searchWord);
+        }
+        else {
+            pagesPastes = await (0, actions_1.getPagesPastesFromDb)(page, pasetsPerPage);
+        }
         if (pagesPastes) {
             return res.status(200).json(pagesPastes);
         }
@@ -47,7 +54,6 @@ exports.getCount = getCount;
 const getLabelsStatistics = async (req, res) => {
     try {
         const statistics = await (0, actions_1.getLabelsStatisticsFromDb)();
-        console.log(statistics);
         if (statistics) {
             return res.status(200).json({ data: statistics });
         }
@@ -61,6 +67,25 @@ const getLabelsStatistics = async (req, res) => {
     }
 };
 exports.getLabelsStatistics = getLabelsStatistics;
+const getPasteById = async (req, res) => {
+    try {
+        const pasteId = Number(req.sanitize(req.query.id));
+        if (pasteId) {
+            const paste = await (0, actions_1.getPasteByIdFromDb)(pasteId);
+            if (paste) {
+                return res.status(200).json(paste);
+            }
+        }
+        else {
+            return res.status(204).send("No posts found");
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send("Internal server Error");
+    }
+};
+exports.getPasteById = getPasteById;
 const getPastesByQuery = async (req, res) => {
     try {
         const query = req.sanitize(req.params.query);

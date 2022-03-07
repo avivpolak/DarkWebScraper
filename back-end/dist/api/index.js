@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //express server
+const path_1 = __importDefault(require("path"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const jsonParser = body_parser_1.default.json();
 const express_1 = __importDefault(require("express"));
@@ -15,7 +16,8 @@ app.use((0, cors_1.default)());
 app.use(expressSanitizer());
 //routes
 const analyzedPastes_1 = __importDefault(require("./routes/analyzedPastes"));
-app.use("/", jsonParser, analyzedPastes_1.default);
+app.use("/api", jsonParser, analyzedPastes_1.default);
+app.use(express_1.default.static(path_1.default.join(__dirname, '../../../front-end/build')));
 //listen
 const server = app.listen(port, () => {
     console.log(`listening on port ${port}`);

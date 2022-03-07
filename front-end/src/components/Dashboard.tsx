@@ -8,7 +8,7 @@ export const Dashboard = () => {
 
     const updateStats = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/stats`);
+            const response = await axios.get(`http://localhost:8080/api/stats`);
             if (response.data) {
                 setStats(response.data.data);
             }

@@ -33,7 +33,7 @@ const LiveData = () => {
     const getCount = async () => {
         try {
             const response = await axios.get(
-                `http://localhost:8080/countAll`,
+                `http://localhost:8080/api/countAll`,
                 config
             );
             setCount(response.data);
@@ -43,7 +43,7 @@ const LiveData = () => {
     const updateData = async () => {
         try {
             await getCount();
-            const response = await axios.get(`http://localhost:8080/?page=${pageNumber}&pasetsPerPage=${pasetsPerPage}`, config);
+            const response = await axios.get(`http://localhost:8080/api/?page=${pageNumber}&pasetsPerPage=${pasetsPerPage}`, config);
             if (response.data.length > 0) {
                 console.log(response.data);
                 setData(response.data);

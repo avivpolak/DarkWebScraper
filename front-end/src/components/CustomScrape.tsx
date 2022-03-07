@@ -52,7 +52,7 @@ const CustomScrape = () => {
         try {
             setIsLoading(true);
             const response = await axios.post(
-                `http://localhost:8080/custom`,
+                `http://localhost:8080/api/custom`,
                 config
             );
             setIsLoading(false);

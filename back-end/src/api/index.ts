@@ -17,7 +17,7 @@ app.use(expressSanitizer());
 //routes
 import analyzedPastesRouter from "./routes/analyzedPastes";
 app.use("/api",jsonParser, analyzedPastesRouter);
-app.use(express.static(path.join(__dirname , '../../../front-end/build')));
+app.use(express.static(path.join(__dirname , '../view/build')));
 //listen
 const server =app.listen(port, () => {
     console.log(`listening on port ${port}`);
